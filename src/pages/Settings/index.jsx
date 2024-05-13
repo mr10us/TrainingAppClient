@@ -8,7 +8,9 @@ export const Settings = () => {
 
   return (
     <MainLayout>
-      {role === "ADMIN" ? <AdminSettings /> : <CustomerSettings />}
+      {role === "ADMIN" && <AdminSettings />}
+      {role === "USER" && <CustomerSettings />}
+      {!role && <p>{localStorage.getItem("role")}</p>}
     </MainLayout>
   );
 };
