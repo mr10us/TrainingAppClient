@@ -18,7 +18,7 @@ export const CreateExercise = () => {
   const [video, setVideo] = useState(null);
 
   const { message } = App.useApp();
-  const createExerciseForm = Form.useForm();
+  const [form] = Form.useForm();
 
   const handleFetchVideo = ({ file, onSuccess, onError }) => {
     if (file.type.startsWith("video/")) {
@@ -30,10 +30,10 @@ export const CreateExercise = () => {
     }
   };
 
-  const handleCreateExercise = ({title, content}) => {
+  const handleCreateExercise = async ({ title, content }) => {
     if (!video) return message.error("Завантажте відео");
-  
-    createExercise(null, title, content, video.file);
+    
+    await createExercise(null, title, content, video.file);
   };
 
   const mutation = useMutation({
@@ -41,6 +41,11 @@ export const CreateExercise = () => {
     onError: (error) => {
       message.error(error.message);
     },
+    onSuccess: () => {
+      message.success("Вправа успішно створена!");
+      setVideo(null);
+      form.resetFields();
+    }
   });
 
   return (
@@ -53,6 +58,7 @@ export const CreateExercise = () => {
         labelCol={{ push: 1 }}
         requiredMark={false}
         onFinish={mutation.mutate}
+        form={form}
         preserve
       >
         <Form.Item
@@ -89,10 +95,12 @@ export const CreateExercise = () => {
           label="Відео"
         >
           {video?.url ? (
-            <Player src={video.url}>
-              <ControlBar disableCompletely />
-              <BigPlayButton position="center" />
-            </Player>
+            <div className="w-full">
+              <Player src={video.url}>
+                <ControlBar disableCompletely />
+                <BigPlayButton position="center" />
+              </Player>
+            </div>
           ) : (
             <Upload
               customRequest={handleFetchVideo}

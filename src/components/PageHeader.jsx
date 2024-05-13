@@ -49,7 +49,7 @@ export const PageHeader = ({
         <div className="text-center">{renderTitle()}</div>
 
         {extra && (
-          <div className="flex items-center justify-center">{extra}</div>
+          <div className="flex items-center justify-center drop-shadow-md pr-4">{extra}</div>
         )}
       </div>
     </div>

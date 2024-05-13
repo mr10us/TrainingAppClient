@@ -1,27 +1,33 @@
 import { handleErrors } from "@utils/handlers/http";
 import { $host } from "./index";
 
-export const getUsers = async (query) => {
+export const getUsers = async (signal, query) => {
   const response = await $host.get(
-    "/api/user/" + ((query !== undefined && "?" + query) || "")
+    "/api/user/" + ((query !== undefined && "?" + query) || ""),
+    { signal }
   );
   handleErrors(response);
 
   return response.data;
 };
 
-export const getUser = async (userID) => {
-  const response = await $host.get(`/api/user/${userID}/`);
+export const getUser = async (signal, userID) => {
+  const response = await $host.get(`/api/user/${userID}/`, { signal });
 
   handleErrors(response);
 
   return response.data;
 };
 
-export const login = async (chatID) => {
-  const response = await $host.post(`/api/user/login/`, { chatID });
+export const login = async (signal, chatID) => {
+  const response = await $host.post(`/api/user/login/`, { signal, chatID });
 
   handleErrors(response);
 
-  return response.data;
+  if (response.status === 200) {
+    localStorage.setItem("token", "Token " + response.data.token);
+    localStorage.setItem("role", response.data.user.role);
+  }
+
+  return response.status;
 };

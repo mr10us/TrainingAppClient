@@ -9,7 +9,7 @@ const $adminHost = axios.create({
 });
 
 const authInterceptor = (config) => {
-  config.headers.authorization = `Token ${localStorage.getItem("key")}`;
+  config.headers.authorization = localStorage.getItem("token");
   return config;
 };
 

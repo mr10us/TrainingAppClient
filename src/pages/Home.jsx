@@ -27,7 +27,7 @@ export const Home = () => {
           )}
           <p className="text-gray-100 py font-bold text-3xl mt-4">
             Привіт, <br />
-            <span className="text-5xl text-yellow-300 ml-4">{name + localStorage.getItem("token")}</span>!
+            <span className="text-5xl text-yellow-300 ml-4">{name}</span>!
           </p>
         </div>
         <MenuButtons />

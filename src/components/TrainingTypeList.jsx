@@ -26,7 +26,7 @@ TrainingTypeList.Item = ({ title, time, rate, type, img }) => {
         <p>Час виконання: {time}</p>
         <p>Тип: {type}</p>
         <div className="flex">
-          <Rating value={rate} readOnly precision={0.1} />
+          <Rating rating={rate} />
           <p className="ml-1">{rate}</p>
         </div>
       </div>

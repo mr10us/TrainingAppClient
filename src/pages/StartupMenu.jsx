@@ -1,29 +1,27 @@
 import { Link } from "react-router-dom";
 import { routes } from "@consts";
 import logoBird from "/img/logo-bird.png";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useTelegram } from "@hooks/useTelegram";
 import { useQuery } from "@tanstack/react-query";
 import { login } from "@http/userApi";
 
 export const StartupMenu = () => {
-  const { tg, user } = useTelegram();
+  const { tg } = useTelegram();
+
+  const user = { id: 340167417 };
+
+  useQuery({
+    queryKey: ["login"],
+    queryFn: ({ signal }) => {
+      return login(signal, user.id);
+    },
+  });
 
   useEffect(() => {
     tg.ready();
     tg.expand();
   }, []);
-
-  const { isLoading, isSuccess, data, isError, error } = useQuery({
-    queryKey: ["login"],
-    queryFn: () => login(user.id),
-  });
-  
-  useMemo(() => {
-    isSuccess && localStorage.setItem("token", data.token);
-  }, [isSuccess, data]);
-
-  if (isLoading) return <div>{"isLoading:" + isLoading}</div>
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -36,10 +34,6 @@ export const StartupMenu = () => {
           <p className="text-gray-600 mb-6">
             Я Ваш віртуальний тренер і готовий вести Вас до нових перемог!
           </p>
-          <div>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-            {isSuccess && <p>Success</p>}
-          </div>
         </div>
         <div className="grid grid-cols-1 gap-4">
           <Link

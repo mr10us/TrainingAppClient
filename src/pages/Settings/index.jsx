@@ -1,18 +1,14 @@
-import { Navigate } from "react-router-dom";
+import { useRole } from "@hooks/useRole";
 import { MainLayout } from "../../layouts/MainLayout";
-import BackButton from "@components/UI/BackButton";
-import { useTelegram } from "@hooks/useTelegram";
-import { useQuery } from "@tanstack/react-query";
 import { AdminSettings } from "./AdminSettings";
+import { CustomerSettings } from "./CustomerSettings";
 
 export const Settings = () => {
-  const { user } = useTelegram();
-
-  // useQuery();
+  const role = useRole();
 
   return (
     <MainLayout>
-      <AdminSettings />
+      {role === "ADMIN" ? <AdminSettings /> : <CustomerSettings />}
     </MainLayout>
   );
 };

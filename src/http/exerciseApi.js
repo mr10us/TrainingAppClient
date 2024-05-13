@@ -1,9 +1,9 @@
-import { $host } from "./index";
+import { $adminHost, $host } from "./index";
 import { handleErrors } from "@utils/handlers/http";
 
-export const getExercises = async (signal, query) => {
-  const queryParams = query ? "?" + query : null;
-  const response = $host.get(`/api/exercise/${queryParams || ""}`, { signal });
+export const getExercises = async (pageParam, query, signal) => {
+  const queryParams = query ? `?page=${pageParam}&${query}` : `?page=${pageParam}`;
+  const response = await $host.get(`/api/exercise/${queryParams || ""}`, { params: signal });
 
   handleErrors(response);
 
@@ -18,18 +18,24 @@ export const getExercise = async (signal, exerciseID) => {
   return response.data;
 };
 
-export const createExercise = async (signal, title, content, video) => {
-  const response = await $host.post(`/api/exercise/`, {
+export const createExercise = async (signal, title, content, videoFile) => {
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("content", content);
+  formData.append("video", videoFile);
+
+  const response = await $adminHost.post(`/api/exercise/`, formData, {
     signal,
-    title,
-    content,
-    video,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   handleErrors(response);
 
   return response.data;
 };
+
 
 export const editExercise = async (
   signal,

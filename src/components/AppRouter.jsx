@@ -12,6 +12,12 @@ import { EditTraining } from "@pages/Settings/Trainings/EditTraining";
 import { EditExercise } from "@pages/Settings/Exercixes/EditExercise";
 import { Trainings } from "@pages/Settings/Trainings/Trainings";
 import { Exercises } from "@pages/Settings/Exercixes/Exercises";
+import { Categories } from "@pages/Settings/Categories/Categories";
+import { CreateCategory } from "@pages/Settings/Categories/CreateCategory";
+import { EditCategory } from "@pages/Settings/Categories/EditCategory";
+import { Types } from "@pages/Settings/Types/Types";
+import { CreateType } from "@pages/Settings/Types/CreateType";
+import { EditType } from "@pages/Settings/Types/EditType";
 
 export const router = createBrowserRouter([
   {
@@ -39,9 +45,18 @@ export const router = createBrowserRouter([
     element: <Settings />,
   },
   { path: routes.ADMIN_TRAININGS, element: <Trainings /> },
-  { path: routes.ADMIN_EXERCISES, element: <Exercises /> },
   { path: routes.CREATE_TRAINING, element: <CreateTraining /> },
+  { path: routes.EDIT_TRAINING, element: <EditTraining /> },
+
+  { path: routes.ADMIN_EXERCISES, element: <Exercises /> },
   { path: routes.CREATE_EXERCISE, element: <CreateExercise /> },
-  { path: routes.EDIT_TRAINING_TRAINING, element: <EditTraining /> },
   { path: routes.EDIT_EXERCISE, element: <EditExercise /> },
+
+  {path: routes.ADMIN_CATEGORIES, element: <Categories />},
+  {path: routes.CREATE_CATEGORIES, element: <CreateCategory />},
+  {path: routes.EDIT_CATEGORIES, element: <EditCategory />},
+
+  {path: routes.ADMIN_TYPES, element: <Types />},
+  {path: routes.CREATE_TYPE, element: <CreateType />},
+  {path: routes.EDIT_TYPE, element: <EditType />},
 ]);
