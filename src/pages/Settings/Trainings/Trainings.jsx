@@ -1,29 +1,21 @@
-import React from "react";
-import { PageHeader } from "@components/PageHeader";
+import { levels, routes } from "@consts";
 import { MainLayout } from "../../../layouts/MainLayout";
-import { List } from "antd";
 import { Link } from "react-router-dom";
-import { routes } from "@consts";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { PageHeader } from "@components/PageHeader";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getExercises } from "@http/exerciseApi";
+import { useMemo } from "react";
+import { List } from "antd";
+import { Empty } from "@components/UI/Empty";
+import { IoAdd } from "react-icons/io5";
+import VirtualList from "rc-virtual-list";
+import { Filter } from "@components/Filter";
+import { Loader } from "@components/UI/Loader";
 import { getTrainings } from "@http/trainingApi";
 
-export const Trainings = () => {
-  const dataToSend = {
-    level: 0,
-    gender: 0,
-    type: [1, 2, 3],
-    category: [1, 2],
-    exercise: [
-      { id: 1, ordinal_number: 0 },
-      { id: 2, ordinal_number: 1 },
-      { id: 3, ordinal_number: 2 },
-      { id: 4, ordinal_number: 3 },
-    ],
-    title: "Тренування на груди",
-    content: "lorem ipsum dolor",
-    exec_time: "00:45:00",
-  };
+const containerHeight = window.innerHeight - 128;
 
+export const Trainings = () => {
   const query = "";
 
   const {
@@ -37,90 +29,85 @@ export const Trainings = () => {
     hasNextPage,
   } = useInfiniteQuery({
     queryKey: ["getTrainings", query],
-    queryFn: ({ pageParam = 1 }) => getTrainings(pageParam, query, pageParam),
+    queryFn: ({ pageParam = 1, signal }) =>
+      getTrainings(pageParam, query, signal),
     initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: ({ totalPages, currentPage }, pages) => {
+      if (totalPages !== currentPage) return currentPage + 1;
+      return null;
+    },
   });
 
-  console.log(data)
+  const trainings = useMemo(() => {
+    return isSuccess
+      ? data.pages.map((result) => result.rows).flat()
+      : null;
+  }, [isSuccess, data]);
 
-  const trainings = [
-    {
-      id: 1,
-      title: "Тренування ніг",
-      time: "12 хв",
-      rate: 4.3,
-      type: "Новачок",
-      img: "/img/testTraining.jpg",
-    },
-    {
-      id: 2,
-      title: "Тренування ніг",
-      time: "12 хв",
-      rate: 4.3,
-      type: "Новачок",
-      img: "/img/testTraining.jpg",
-    },
-    {
-      id: 3,
-      title: "Тренування ніг",
-      time: "12 хв",
-      rate: 4.3,
-      type: "Новачок",
-      img: "/img/testTraining.jpg",
-    },
-    {
-      id: 4,
-      title: "Тренування ніг",
-      time: "12 хв",
-      rate: 4.3,
-      type: "Новачок",
-      img: "/img/testTraining.jpg",
-    },
-    {
-      id: 5,
-      title: "Тренування ніг",
-      time: "12 хв",
-      rate: 4.3,
-      type: "Новачок",
-      img: "/img/testTraining.jpg",
-    },
-    {
-      id: 6,
-      title: "Тренування ніг",
-      time: "12 хв",
-      rate: 4.3,
-      type: "Новачок",
-      img: "/img/testTraining.jpg",
-    },
-  ];
+  const onScroll = (e) => {
+    if (
+      Math.abs(
+        e.currentTarget.scrollHeight -
+          e.currentTarget.scrollTop -
+          containerHeight
+      ) <= 1
+    ) {
+      fetchNextPage();
+    }
+  };
+
+  const filterOptions = [{ key: "" }];
 
   return (
-    <MainLayout style={{ overflowX: "scroll" }}>
-      <PageHeader text={"Тренування"} size={"medium"} />
-      <div className="mx-4" style={{ maxHeight: 600, overflowY: "scroll" }}>
-        <List
-          size="large"
-          dataSource={trainings}
-          renderItem={(item) => (
-            <Link to={`${routes.ADMIN_TRAININGS}${item.id}`}>
-              <div className="p-4 my-4 bg-yellow-50 flex items-center justify-between rounded-lg shadow-md">
-                <div className="basis-2/3">
-                  <h2>{item.title}</h2>
-                  <p>Тип: {item.type}</p>
-                </div>
-                <div className="basis-1/3">
-                  <img
-                    className="rounded-md"
-                    src={item.img}
-                    alt="training image"
-                  />
-                </div>
-              </div>
-            </Link>
-          )}
-        />
-      </div>
+    <MainLayout>
+      <PageHeader
+        title="Тренування"
+        extra={
+          <Link to={routes.CREATE_TRAINING}>
+            <IoAdd size={40} className="text-gray-100" />
+          </Link>
+        }
+      />
+      {isLoading && <Loader />}
+      {isSuccess && trainings.length > 0 ? (
+        <List className="m-4">
+          <VirtualList
+            data={trainings}
+            height={containerHeight}
+            itemKey="id"
+            onScroll={onScroll}
+          >
+            {(item) => (
+              <Link
+                to={routes.ADMIN_TRAININGS + item.id}
+                key={item.id}
+                className="my-3"
+              >
+                <List.Item style={{ padding: 0 }}>
+                  <div className="p-4 w-full bg-yellow-50 flex items-center justify-between rounded-lg shadow-md h-32 overflow-hidden">
+                    <div className="basis-2/3">
+                      <h2 className="font-bold text-xl">{item.title}</h2>
+                      <p className="font-bold ">Рівень: {levels[item.level]}</p>
+                    </div>
+                    <div className="basis-1/3 flex items-center justify-end">
+                      <img
+                        className="rounded-md size-24 object-contain"
+                        src={item.image}
+                        alt="exercise image"
+                        onError={(e) => (e.target.src = "/img/logo-bird.png")}
+                      />
+                    </div>
+                  </div>
+                </List.Item>
+              </Link>
+            )}
+          </VirtualList>
+        </List>
+      ) : null}
+      {isSuccess && trainings.length === 0 && (
+        <Empty description={"Тренувань поки що немає"} />
+      )}
+      <Filter />
     </MainLayout>
   );
 };

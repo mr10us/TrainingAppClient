@@ -6,7 +6,6 @@ export const routes = {
 
   BMI: "/bmi-calc/",
 
-
   SETTINGS: "/settings/",
 
   ADMIN_TRAININGS: "/settings/training/",
@@ -24,8 +23,20 @@ export const routes = {
   ADMIN_TYPES: "/settings/type/",
   CREATE_TYPE: "/settings/type/create/",
   EDIT_TYPE: "/settings/type/:id/",
-}
+};
 
 export const colors = {
-  brand: "#ffb800"
-}
+  brand: "#ffb800",
+};
+
+export const levels = {
+  0: "Новачок",
+  1: "Середній",
+  2: "Високий",
+};
+
+export const genders = {
+  0: "Універсальний",
+  1: "Чоловік",
+  2: "Жінка",
+};

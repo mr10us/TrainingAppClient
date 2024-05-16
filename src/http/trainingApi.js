@@ -1,9 +1,9 @@
 import { $host } from "./index";
 import { handleErrors } from "@utils/handlers/http";
 
-export const getTrainings = async (signal, query, page) => {
+export const getTrainings = async (page, query, signal) => {
   const queryParams = query ? "?" + query + `&page=${page}` : `?page=${page}`;
-  const response = await $host.get(`/api/trainings/${queryParams || ""}`, {
+  const response = await $host.get(`/api/training/${queryParams || ""}`, {
     signal,
   });
 
@@ -13,7 +13,7 @@ export const getTrainings = async (signal, query, page) => {
 };
 
 export const getTraining = async (signal, trainingID) => {
-  const response = await $host.get(`/api/trainings/${trainingID}/`, { signal });
+  const response = await $host.get(`/api/training/${trainingID}/`, { signal });
 
   handleErrors(response);
 
@@ -21,7 +21,7 @@ export const getTraining = async (signal, trainingID) => {
 };
 
 export const createTraining = async (signal, training) => {
-  const response = await $host.post(`/api/trainings/`, {
+  const response = await $host.post(`/api/training/`, {
     signal,
     ...training,
   });
@@ -32,7 +32,7 @@ export const createTraining = async (signal, training) => {
 };
 
 export const editTraining = async (signal, trainingID, training) => {
-  const response = await $host.put(`/api/trainings/${trainingID}`, {
+  const response = await $host.put(`/api/training/${trainingID}`, {
     signal,
     ...training,
   });

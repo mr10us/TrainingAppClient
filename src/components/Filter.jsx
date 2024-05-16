@@ -10,7 +10,6 @@ export const Filter = ({ query, setQuery }) => {
     setOpenDrawer((prev) => !prev);
   };
 
-  console.log(openDrawer);
   return (
     <Navigation>
       <Navigation.Item>

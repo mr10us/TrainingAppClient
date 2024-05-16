@@ -14,7 +14,7 @@ Navigation.Home = () => {
   return (
     <Link
       to={routes.HOME}
-      className="w-full m-2 flex justify-center items-center h-full"
+      className="m-2 flex justify-center items-center h-full"
     >
       <FaHome size={"1.5rem"} className="text-yellow-200" />
     </Link>
@@ -24,7 +24,7 @@ Navigation.Back = () => {
   return (
     <Link
       to={-1}
-      className="w-full m-2 flex justify-center items-center h-full"
+      className="m-2 flex justify-center items-center h-full"
     >
       <FaArrowLeft size={"1.5rem"} className="text-yellow-200" />
     </Link>
@@ -32,7 +32,7 @@ Navigation.Back = () => {
 };
 Navigation.Item = ({ children }) => {
   return (
-    <div className="w-full m-2 flex justify-center items-center h-full">
+    <div className="m-2 flex justify-center items-center h-full cursor-pointer">
       {children}
     </div>
   );

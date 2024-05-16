@@ -16,15 +16,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-.scroller {
-  scroll-snap-type: y mandatory;
-  scroll-margin-block: 140px;
-  scroll-margin-inline: 140px;
-}
-.scroller > * {
-  scroll-snap-align: start;
-}
-
 .ant-form-item-label > label {
   font-size: 1rem !important;
   font-weight: bold !important;
@@ -47,4 +38,8 @@ body::-webkit-scrollbar {
   transform: translate(-25%, -25%) !important;
   width: fit-content !important;
   height: fit-content !important;
+}
+
+.ant-collapse-header {
+  align-items: center !important;
 }
