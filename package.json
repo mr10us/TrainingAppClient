@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "VITE_API_URL=http://164.92.232.110:8000 vite build",
+    "build": "VITE_API_URL=https://164.92.232.110:8000 vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
