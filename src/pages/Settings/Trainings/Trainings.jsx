@@ -3,7 +3,6 @@ import { MainLayout } from "../../../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import { PageHeader } from "@components/PageHeader";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getExercises } from "@http/exerciseApi";
 import { useMemo } from "react";
 import { List } from "antd";
 import { Empty } from "@components/UI/Empty";
@@ -24,7 +23,6 @@ export const Trainings = () => {
     isSuccess,
     isError,
     error,
-    remove,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
@@ -32,7 +30,7 @@ export const Trainings = () => {
     queryFn: ({ pageParam = 1, signal }) =>
       getTrainings(pageParam, query, signal),
     initialPageParam: 1,
-    getNextPageParam: ({ totalPages, currentPage }, pages) => {
+    getNextPageParam: ({ totalPages, currentPage }) => {
       if (totalPages !== currentPage) return currentPage + 1;
       return null;
     },
@@ -40,7 +38,7 @@ export const Trainings = () => {
 
   const trainings = useMemo(() => {
     return isSuccess
-      ? data.pages.map((result) => result.rows).flat()
+      ? data.pages.map((result) => result.trainings).flat()
       : null;
   }, [isSuccess, data]);
 
@@ -50,7 +48,7 @@ export const Trainings = () => {
         e.currentTarget.scrollHeight -
           e.currentTarget.scrollTop -
           containerHeight
-      ) <= 1
+      ) <= 1 && hasNextPage
     ) {
       fetchNextPage();
     }
@@ -89,9 +87,9 @@ export const Trainings = () => {
                       <h2 className="font-bold text-xl">{item.title}</h2>
                       <p className="font-bold ">Рівень: {levels[item.level]}</p>
                     </div>
-                    <div className="basis-1/3 flex items-center justify-end">
+                    <div className="basis-1/3 flex items-center justify-center">
                       <img
-                        className="rounded-md size-24 object-contain"
+                        className="rounded-md h-24 object-contain"
                         src={item.image}
                         alt="exercise image"
                         onError={(e) => (e.target.src = "/img/logo-bird.png")}

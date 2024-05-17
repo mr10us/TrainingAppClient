@@ -87,9 +87,9 @@ export const Exercises = () => {
                     <div className="basis-2/3">
                       <p className="font-bold text-xl">{item.title}</p>
                     </div>
-                    <div className="basis-1/3 flex items-center justify-end">
+                    <div className="basis-1/3 flex items-center justify-center">
                       <img
-                        className="rounded-md size-24 object-contain"
+                        className="rounded-md h-24 object-contain"
                         src={item.preview}
                         alt="exercise image"
                         onError={(e) => (e.target.src = "/img/logo-bird.png")}

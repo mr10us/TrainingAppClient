@@ -13,9 +13,9 @@ import {
 } from "antd";
 import { FaPlus } from "react-icons/fa";
 import { PageHeader } from "@components/PageHeader";
-import { genders, levels } from "@consts";
+import { genders, levels, routes } from "@consts";
 import { getExercises } from "@http/exerciseApi";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { Loader } from "@components/UI/Loader";
 import {
   DndContext,
@@ -28,6 +28,9 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { SortableExercises } from "@components/SortableExercises";
+import { useNavigate } from "react-router-dom";
+import { getExecTime } from "@utils/getExecutionTime";
+import { createTraining } from "@http/trainingApi";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -55,6 +58,7 @@ export const CreateTraining = () => {
   const query = "";
   const { message } = App.useApp();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const handleFetchPhoto = ({ file, onSuccess, onError }) => {
     if (file.type.startsWith("image/")) {
@@ -64,10 +68,6 @@ export const CreateTraining = () => {
       onError();
       message.error("Для завантаження доступні тільки зображення");
     }
-  };
-
-  const handleCreateTraining = () => {
-    console.log("done");
   };
 
   const {
@@ -133,6 +133,43 @@ export const CreateTraining = () => {
     form.setFieldValue("exercises", formExerciseValues);
   };
 
+  const handleCreateTraining = async (values) => {
+    if (!photo?.file) throw Error("Завантажте превʼю");
+    const title = values.title;
+    const content = values.content;
+    const execTime = getExecTime(values.execTime);
+    const gender = values.gender.value;
+    const level = values.level.value;
+    const preview = photo.file;
+    const exercises = selectedExercises.map((exercise, index) => ({
+      id: exercise.id,
+      ordinal_number: index,
+    }));
+
+    await createTraining(
+      null,
+      title,
+      content,
+      execTime,
+      gender,
+      level,
+      preview,
+      exercises
+    );
+  };
+
+  const mutation = useMutation({
+    mutationFn: handleCreateTraining,
+    mutationKey: ["createTraining"],
+    onSuccess: () => {
+      message.success("Тренування створено успішно!");
+      navigate(routes.ADMIN_TRAININGS);
+    },
+    onError: (error) => {
+      message.error(error.message);
+    },
+  });
+
   return (
     <MainLayout>
       <PageHeader size={"medium"} title={"Створити тренування"} />
@@ -144,7 +181,7 @@ export const CreateTraining = () => {
           layout="vertical"
           className="m-8"
           labelCol={{ push: 1 }}
-          onFinish={handleCreateTraining}
+          onFinish={mutation.mutate}
           preserve
         >
           <Flex vertical justify="space-between">
@@ -165,7 +202,7 @@ export const CreateTraining = () => {
               {photo?.url ? (
                 <img
                   src={photo?.url}
-                  className="w-full object-cover"
+                  className="w-full object-cover rounded-xl"
                   alt="training preview"
                 />
               ) : (

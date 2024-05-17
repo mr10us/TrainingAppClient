@@ -6,7 +6,7 @@ export const getExercises = async (pageParam, query, signal) => {
     ? `?page=${pageParam}&${query}`
     : `?page=${pageParam}`;
   const response = await $host.get(`/api/exercise/${queryParams || ""}`, {
-    params: signal,
+    signal,
   });
 
   handleErrors(response);

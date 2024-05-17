@@ -26,9 +26,9 @@ export const PageHeader = ({
   };
 
   return (
-    <div className="h-16 relative">
+    <div className="relative h-20">
       <div
-        className="grid fixed grid-cols-3 w-full h-16 items-center gap-4 shadow-sm"
+        className="grid fixed grid-cols-3 w-full h-20 items-center gap-4 shadow-sm"
         style={{
           background: "linear-gradient(to bottom, #ffc04b, #ffba43)",
           zIndex: 999,
