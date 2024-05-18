@@ -198,6 +198,7 @@ export const CreateExercise = () => {
               allowClear
               maxTagCount="responsive"
               loading={isLoadingTypes}
+              placement="topLeft"
               filterOption={(input, option) =>
                 (option?.children ?? "")
                   .toLowerCase()
@@ -239,6 +240,7 @@ export const CreateExercise = () => {
               placeholder="Оберіть категорію вправи"
               allowClear
               maxTagCount="responsive"
+              placement="topLeft"
               filterOption={(input, option) =>
                 (option?.children ?? "")
                   .toLowerCase()
@@ -277,7 +279,8 @@ export const CreateExercise = () => {
             type="primary"
             block
             htmlType="submit"
-            loading={mutation.isLoading}
+            loading={mutation.isPending}
+            disabled={mutation.isPending}
             className="shadow my-8"
           >
             Створити

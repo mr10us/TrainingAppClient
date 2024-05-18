@@ -18,7 +18,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "@consts";
 import { Loader } from "@components/UI/Loader";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import { deleteVideo } from "@http/videoApi";
+import { deleteVideo } from "@http/mediaApi";
+import { CustomPlayer } from "@components/UI/CustomPlayer";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -148,7 +149,9 @@ export const EditExercise = () => {
   const selectedTypes = Form.useWatch("types", form);
 
   const handleCloseTypeTag = (removedTag) => {
-    const newTags = selectedTypes.filter(({value: tag}) => tag !== removedTag);
+    const newTags = selectedTypes.filter(
+      ({ value: tag }) => tag !== removedTag
+    );
     form.setFieldsValue({ types: newTags });
   };
 
@@ -184,7 +187,9 @@ export const EditExercise = () => {
   const selectedCategories = Form.useWatch("categories", form);
 
   const handleCloseCategoryTag = (removedTag) => {
-    const newTags = selectedCategories.filter(({value: tag}) => tag !== removedTag);
+    const newTags = selectedCategories.filter(
+      ({ value: tag }) => tag !== removedTag
+    );
 
     form.setFieldsValue({ categories: newTags });
   };
@@ -234,7 +239,7 @@ export const EditExercise = () => {
 
   useEffect(() => {
     return () => {
-      video?.isNew && deleteVideo(null, video.old);
+      video?.isNew && video?.file && deleteVideo(null, video.old);
     };
   }, [video]);
 
@@ -289,15 +294,12 @@ export const EditExercise = () => {
             >
               {video?.url ? (
                 <div className="w-full relative">
-                  <Player src={video.url}>
-                    <ControlBar disableCompletely />
-                    <BigPlayButton position="center" />
-                  </Player>
+                  <CustomPlayer src={video.url} />
                   <div
                     className="absolute top-5 right-5"
                     onClick={handleDeleteVideo}
                   >
-                    <RiDeleteBin2Line size={50} className="text-gray-200" />
+                    <RiDeleteBin2Line size={50} className="text-gray-200 cursor-pointer" />
                   </div>
                 </div>
               ) : (
@@ -328,6 +330,7 @@ export const EditExercise = () => {
                 allowClear
                 labelInValue
                 maxTagCount="responsive"
+                placement="topLeft"
                 loading={isLoadingTypes}
                 filterOption={(input, option) =>
                   (option?.children ?? "")
@@ -369,6 +372,7 @@ export const EditExercise = () => {
                 placeholder="Оберіть категорію вправи"
                 allowClear
                 maxTagCount="responsive"
+                placement="topLeft"
                 filterOption={(input, option) =>
                   (option?.children ?? "")
                     .toLowerCase()
@@ -405,7 +409,8 @@ export const EditExercise = () => {
                 type="primary"
                 block
                 htmlType="submit"
-                loading={mutation.isLoading}
+                loading={mutation.isPending}
+                disabled={mutation.isPending}
                 className="shadow"
               >
                 Редагувати
@@ -414,6 +419,8 @@ export const EditExercise = () => {
                 type="primary"
                 block
                 danger
+                loading={deleteExerciseMutation.isPending}
+                disabled={deleteExerciseMutation.isPending}
                 className="shadow mb-8"
                 onClick={handleDelete}
               >

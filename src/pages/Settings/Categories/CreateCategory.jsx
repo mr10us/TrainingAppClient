@@ -64,6 +64,8 @@ export const CreateCategory = () => {
             type="primary"
             block
             htmlType="submit"
+            loading={mutation.isPending}
+            disabled={mutation.isPending}
             className="shadow my-8"
           >
             Створити

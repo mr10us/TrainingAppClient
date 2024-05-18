@@ -48,7 +48,7 @@ export const EditType = () => {
     },
     onSuccess: () => {
       message.success("Тип успішно видалено!");
-      navigate(routes.ADMIN_TYPES)
+      navigate(routes.ADMIN_TYPES);
     },
   });
 
@@ -108,12 +108,20 @@ export const EditType = () => {
                 type="primary"
                 block
                 htmlType="submit"
-                loading={editTypeMutation.isLoading}
+                disabled={editTypeMutation.isPending}
+                loading={editTypeMutation.isPending}
                 className="shadow"
               >
                 Редагувати
               </Button>
-              <Button block type="primary" danger onClick={handleDelete}>
+              <Button
+                block
+                type="primary"
+                danger
+                onClick={handleDelete}
+                loading={deleteTypeMutation.isPending}
+                disabled={deleteTypeMutation.isPending}
+              >
                 Видалити
               </Button>
             </Flex>

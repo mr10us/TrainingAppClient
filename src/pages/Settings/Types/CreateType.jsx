@@ -64,6 +64,8 @@ export const CreateType = () => {
             type="primary"
             block
             htmlType="submit"
+            disabled={mutation.isPending}
+            loading={mutation.isPending}
             className="shadow my-8"
           >
             Створити

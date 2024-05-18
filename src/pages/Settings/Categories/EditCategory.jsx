@@ -48,7 +48,7 @@ export const EditCategory = () => {
     },
     onSuccess: () => {
       message.success("Категорію успішно видалено!");
-      navigate(routes.ADMIN_CATEGORIES)
+      navigate(routes.ADMIN_CATEGORIES);
     },
   });
 
@@ -108,12 +108,20 @@ export const EditCategory = () => {
                 type="primary"
                 block
                 htmlType="submit"
-                loading={editCategoryMutation.isLoading}
+                loading={editCategoryMutation.isPending}
+                disabled={editCategoryMutation.isPending}
                 className="shadow"
               >
                 Редагувати
               </Button>
-              <Button block type="primary" danger onClick={handleDelete}>
+              <Button
+                block
+                type="primary"
+                danger
+                onClick={handleDelete}
+                loading={deleteCategoryMutation.isPending}
+                disabled={deleteCategoryMutation.isPending}
+              >
                 Видалити
               </Button>
             </Flex>

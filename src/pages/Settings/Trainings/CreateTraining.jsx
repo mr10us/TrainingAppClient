@@ -230,6 +230,7 @@ export const CreateTraining = () => {
                 placeholder={"Оберіть рівень для тренування"}
                 labelInValue
                 allowClear
+                placement="topLeft"
               >
                 {Object.entries(levels).map(([key, value]) => (
                   <Select.Option key={key} value={key}>
@@ -243,6 +244,7 @@ export const CreateTraining = () => {
                 placeholder={"Оберіть гендер тренування"}
                 labelInValue
                 allowClear
+                placement="topLeft"
               >
                 {Object.entries(genders).map(([key, value]) => (
                   <Select.Option key={key} value={key}>
@@ -258,6 +260,7 @@ export const CreateTraining = () => {
                 hourStep={1}
                 className="w-full"
                 showNow={false}
+                placement="topLeft"
               />
             </Form.Item>
             <Form.Item name="exercises" label="Вправи">
@@ -268,6 +271,7 @@ export const CreateTraining = () => {
                 labelInValue
                 allowClear
                 showSearch
+                placement="topLeft"
                 filterOption={(input, option) =>
                   (option?.children ?? "")
                     .toLowerCase()
