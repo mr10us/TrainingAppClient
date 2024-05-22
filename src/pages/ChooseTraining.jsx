@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 import { genders, levels, routes } from "@consts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getTrainings } from "@http/trainingApi";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageHeader } from "@components/PageHeader";
 import { Filter } from "@components/Filter";
 import { Loader } from "@components/UI/Loader";
 import { Badge, List } from "antd";
 import VirtualList from "rc-virtual-list";
 import { Rating } from "@components/UI/Rating";
+import { getTypes } from "@http/typeApi";
+import { getCategories } from "@http/categoryApi";
 
 const containerHeight = window.innerHeight - 128;
 
 export const ChooseTraining = () => {
-  const query = "";
+  const [query, setQuery] = useState("");
 
   const {
     data,
@@ -35,6 +37,65 @@ export const ChooseTraining = () => {
     },
   });
 
+  const {
+    data: typesData,
+    isLoading: isLoadingTypes,
+    isSuccess: isSuccessTypes,
+    isError: isErrorTypes,
+    error: errorTypes,
+    fetchNextPage: fetchNextTypes,
+    hasNextPage: hasNextTypes,
+  } = useInfiniteQuery({
+    queryKey: ["getTypes"],
+    queryFn: ({ pageParam = 1, signal }) => getTypes(pageParam, "", signal),
+    initialPageParam: 1,
+    getNextPageParam: ({ totalPages, currentPage }) => {
+      if (totalPages !== currentPage) return currentPage + 1;
+      return null;
+    },
+  });
+
+  useEffect(() => {
+    if (hasNextTypes) fetchNextTypes();
+  }, [typesData, hasNextTypes]);
+
+  const types = useMemo(
+    () =>
+      isSuccessTypes ? typesData.pages.map((page) => page.types).flat() : [],
+    [isSuccessTypes, typesData]
+  );
+
+  const {
+    data: categoriesData,
+    isLoading: isLoadingCategories,
+    isSuccess: isSuccessCategories,
+    isError: isErrorCategories,
+    error: errorCategories,
+    fetchNextPage: fetchNextCategories,
+    hasNextPage: hasNextCategories,
+  } = useInfiniteQuery({
+    queryKey: ["getCategories"],
+    queryFn: ({ pageParam = 1, signal }) =>
+      getCategories(pageParam, "", signal),
+    initialPageParam: 1,
+    getNextPageParam: ({ totalPages, currentPage }) => {
+      if (totalPages !== currentPage) return currentPage + 1;
+      return null;
+    },
+  });
+
+  useEffect(() => {
+    if (hasNextCategories) fetchNextCategories();
+  }, [categoriesData, hasNextCategories]);
+
+  const categories = useMemo(
+    () =>
+      isSuccessCategories
+        ? categoriesData.pages.map((page) => page.categories).flat()
+        : [],
+    [isSuccessCategories, categoriesData]
+  );
+
   const trainings = useMemo(() => {
     return isSuccess ? data.pages.map((result) => result.trainings).flat() : [];
   }, [isSuccess, data]);
@@ -51,6 +112,78 @@ export const ChooseTraining = () => {
       fetchNextPage();
     }
   };
+
+  const filterItems = useMemo(
+    () => [
+      {
+        key: "level",
+        label: "Рівень",
+        type: "level",
+        children: (
+          <Filter.Checkbox
+            buttons={Object.entries(levels).map(([key, value]) => ({
+              value: key,
+              children: <p>{value}</p>,
+            }))}
+          />
+        ),
+      },
+      {
+        key: "gender",
+        label: "Стать",
+        type: "gender",
+        children: (
+          <Filter.Checkbox
+            buttons={Object.entries(genders).map(([key, value]) => ({
+              value: key,
+              children: <p>{value}</p>,
+            }))}
+          />
+        ),
+      },
+      {
+        key: "rating",
+        label: "Рейтинг",
+        type: "rating",
+        children: (
+          <Filter.Checkbox
+            buttons={[
+              { value: "high", children: <p>Високий</p> },
+              { value: "middle", children: <p>Середній</p> },
+              { value: "low", children: <p>Низький</p> },
+            ]}
+          />
+        ),
+      },
+      {
+        key: "categories",
+        label: "Категорії",
+        type: "categories",
+        children: (
+          <Filter.Checkbox
+            buttons={categories.map((category) => ({
+              value: category.id,
+              children: <p>{category.name}</p>,
+            }))}
+          />
+        ),
+      },
+      {
+        key: "types",
+        label: "Типи",
+        type: "types",
+        children: (
+          <Filter.Checkbox
+            buttons={types.map((type) => ({
+              value: type.id,
+              children: <p>{type.name}</p>,
+            }))}
+          />
+        ),
+      },
+    ],
+    [types, categories]
+  );
 
   return (
     <MainLayout>
@@ -96,7 +229,7 @@ export const ChooseTraining = () => {
               )}
             </VirtualList>
           </List>
-          <Filter />
+          <Filter filterItems={filterItems} query={query} setQuery={setQuery} />
         </>
       )}
     </MainLayout>

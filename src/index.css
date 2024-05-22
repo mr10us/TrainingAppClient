@@ -9,6 +9,9 @@ body {
   background-attachment: fixed;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+body * {
   font-family: "Ubuntu", sans-serif;
 }
 

@@ -3,7 +3,7 @@ import { MainLayout } from "../../../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import { PageHeader } from "@components/PageHeader";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { List } from "antd";
 import { IoAdd } from "react-icons/io5";
 import VirtualList from "rc-virtual-list";
@@ -13,7 +13,7 @@ import { getTypes } from "@http/typeApi";
 const containerHeight = window.innerHeight - 128;
 
 export const Types = () => {
-  const query = "";
+  const [query, setQuery] = useState("");
 
   const { data, isLoading, isSuccess, isError, error, fetchNextPage } =
     useInfiniteQuery({
@@ -43,7 +43,34 @@ export const Types = () => {
     }
   };
 
-  const filterOptions = [{ key: "" }];
+  const filterItems = [
+    {
+      key: 1,
+      label: "test1",
+      type: "test1",
+      children: <Filter.Checkbox />
+    },
+    {
+      key: 2,
+      label: "test2",
+      type: "test2",
+      children: <Filter.Checkbox />
+    }
+  ]
+  const sortItems = [
+    {
+      key: 1,
+      label: "test3",
+      type: "test3",
+      children: <Filter.Checkbox />
+    },
+    {
+      key: 2,
+      label: "test4",
+      type: "test4",
+      children: <Filter.Checkbox />
+    }
+  ]
 
   return (
     <MainLayout>
@@ -77,7 +104,7 @@ export const Types = () => {
           )}
         </VirtualList>
       </List>
-      <Filter />
+      <Filter sortItems={sortItems} filterItems={filterItems}/>
     </MainLayout>
   );
 };

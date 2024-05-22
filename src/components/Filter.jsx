@@ -1,32 +1,257 @@
-import { Drawer } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Checkbox,
+  Collapse,
+  ConfigProvider,
+  DatePicker,
+  Drawer,
+  Flex,
+  Radio,
+  Space,
+} from "antd";
 import { Navigation } from "./UI/Navigation";
-import { useState } from "react";
+import { FaArrowsRotate } from "react-icons/fa6";
 import { colors } from "@consts";
+import { filterHelper } from "@utils/filterHelper";
 
-export const Filter = ({ query, setQuery }) => {
-  const [openDrawer, setOpenDrawer] = useState(false);
+const { RangePicker } = DatePicker;
 
-  const toggleDrawer = () => {
-    setOpenDrawer((prev) => !prev);
+export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
+  const [openDrawer, setOpenDrawer] = useState({sort: false, filter: false});
+  const [filterValues, setFilterValues] = useState({});
+  const [sortValues, setSortValues] = useState({});
+
+  const handleOpenSortDrawer = () => {
+    setOpenDrawer(prev => ({...prev, sort: true}))
+  }
+  const handleCloseSortDrawer = () => {
+    setOpenDrawer(prev => ({...prev, sort: false}))
+  }
+
+  const handleOpenFilterDrawer = () => {
+    setOpenDrawer(prev => ({...prev, filter: true}))
+  }
+  const handleCloseFilterDrawer = () => {
+    setOpenDrawer(prev => ({...prev, filter: false}))
+  }
+
+  const handleFilterChange = (type, value) => {
+    setFilterValues((prevValues) => ({
+      ...prevValues,
+      [type]: value,
+    }));
   };
+
+  const resetFilter = () => {
+    const newQuery = filterHelper.objToQuery(filterValues);
+
+    setFilterValues({});
+    handleCloseFilterDrawer();
+
+    setTimeout(() => {
+      setQuery((prev) => prev.replace(newQuery, ""));
+    }, 500);
+  };
+
+  const applyFilter = () => {
+    const query = filterHelper.objToQuery(filterValues);
+    handleCloseFilterDrawer();
+
+    setTimeout(() => {
+      setQuery(query);
+    }, 500);
+  };
+
+  const resetSort = () => {
+    const newQuery = filterHelper.objToQuery(sortValues);
+
+    setSortValues({});
+    handleCloseSortDrawer()
+
+    setTimeout(() => {
+      setQuery(prev => prev.replace(newQuery, ""));
+    }, 500);
+  };
+
+  const applySort = () => {
+    const query = filterHelper.objToQuery(sortValues);
+    handleCloseSortDrawer()
+
+    setTimeout(() => {
+      if (query) setQuery((prev) => prev + `&${query}`);
+      else setQuery(query);
+    }, 500);
+  };
+
+  useEffect(() => {
+    const values = filterHelper.queryToObj(query);
+
+    setFilterValues(values);
+  }, []);
 
   return (
     <Navigation>
-      <Navigation.Item>
-        <p className="text-gray-100 font-bold text-xl" onClick={toggleDrawer}>
-          Фільтрувати
-        </p>
-        <Drawer
-          placement="bottom"
-          closeIcon={null}
-          open={openDrawer}
-          style={{backgroundColor: colors.brand}}
-          onClose={toggleDrawer}
-          height={window.innerHeight - 128}
-        >
-          
-        </Drawer>
-      </Navigation.Item>
+      {filterItems?.length > 0 ? (
+        <Navigation.Item>
+          <p
+            className="text-gray-100 w-full inline-block font-bold text-xl"
+            onClick={handleOpenFilterDrawer}
+          >
+            Фільтрувати
+          </p>
+          <Drawer
+            placement="bottom"
+            closeIcon={null}
+            open={openDrawer.filter}
+            style={{ backgroundColor: colors.brand, overflowY: "scroll" }}
+            onClose={handleCloseFilterDrawer}
+            height={"fit-content"}
+          >
+            <ConfigProvider theme={{ token: { colorText: "#333" } }}>
+              <Collapse
+                accordion
+                style={{ cursor: "pointer" }}
+                ghost
+                expandIconPosition="end"
+                className="text-xl text-gray-100 bg-brand-light drop-shadow-md"
+                items={filterItems.map((item) => {
+                  const { type, children, ...rest } = item;
+                  return {
+                    ...rest,
+                    children: React.cloneElement(children, {
+                      onChange: (value) => handleFilterChange(type, value),
+                      value: filterValues[type],
+                    }),
+                  };
+                })}
+              />
+            </ConfigProvider>
+            <Flex className="mt-4" gap={"middle"}>
+              <Button
+                size="large"
+                type="primary"
+                block
+                onClick={applyFilter}
+                className="drop-shadow-md"
+              >
+                Фільтрувати
+              </Button>
+              <Button
+                size="large"
+                type="primary"
+                onClick={resetFilter}
+                danger
+                className="block drop-shadow-md"
+                style={{ width: "25%" }}
+                icon={<FaArrowsRotate size={15} />}
+              />
+            </Flex>
+          </Drawer>
+        </Navigation.Item>
+      ) : null}
+      {sortItems?.length > 0 ? (
+        <Navigation.Item>
+          <p
+            className="text-gray-100 w-full inline-block font-bold text-xl"
+            onClick={handleOpenSortDrawer}
+          >
+            Сортувати
+          </p>
+          <Drawer
+            placement="bottom"
+            closeIcon={null}
+            open={openDrawer.sort}
+            style={{ backgroundColor: colors.brand, overflowY: "scroll" }}
+            onClose={handleCloseSortDrawer}
+            height={"fit-content"}
+          >
+            <ConfigProvider theme={{ token: { colorText: "#333" } }}>
+              <Collapse
+                accordion
+                style={{ cursor: "pointer" }}
+                ghost
+                expandIconPosition="end"
+                className="text-xl text-gray-100 bg-brand-light drop-shadow-md"
+                items={sortItems.map((item) => {
+                  const { type, children, ...rest } = item;
+                  return {
+                    ...rest,
+                    children: React.cloneElement(children, {
+                      onChange: (value) => handleFilterChange(type, value),
+                      value: filterValues[type],
+                    }),
+                  };
+                })}
+              />
+            </ConfigProvider>
+            <Flex className="mt-4" gap={"middle"}>
+              <Button
+                size="large"
+                type="primary"
+                block
+                onClick={applySort}
+                className="drop-shadow-md"
+              >
+                Сортувати
+              </Button>
+              <Button
+                size="large"
+                type="primary"
+                onClick={resetSort}
+                danger
+                className="block drop-shadow-md"
+                style={{ width: "25%" }}
+                icon={<FaArrowsRotate size={15} />}
+              />
+            </Flex>
+          </Drawer>
+        </Navigation.Item>
+      ) : null}
     </Navigation>
+  );
+};
+
+Filter.Radio = ({ buttons, onChange, value }) => {
+  return (
+    <Radio.Group onChange={(e) => onChange(e.target.value)} value={value}>
+      <Space direction="vertical">
+        {buttons.map((button, idx) => (
+          <Radio key={idx} value={button.value}>
+            {button.name}
+          </Radio>
+        ))}
+      </Space>
+    </Radio.Group>
+  );
+};
+Filter.Checkbox = ({ buttons, onChange, value }) => {
+  return (
+    <Checkbox.Group onChange={(values) => onChange(values)} value={value}>
+      <Space direction="vertical">
+        {buttons.map((button, idx) => (
+          <Checkbox
+            key={idx}
+            value={
+              typeof button.value === "boolean"
+                ? button.value
+                : String(button.value)
+            }
+          >
+            {button.children}
+          </Checkbox>
+        ))}
+      </Space>
+    </Checkbox.Group>
+  );
+};
+Filter.DateRange = ({ onChange, value, cellRender }) => {
+  return (
+    <RangePicker
+      cellRender={cellRender || null}
+      onChange={(dates) => onChange(dates)}
+      value={value}
+      style={{ width: "100%" }}
+    />
   );
 };
