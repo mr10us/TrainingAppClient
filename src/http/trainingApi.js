@@ -99,3 +99,17 @@ export const deleteTraining = async (signal, trainingID) => {
 
   return response.data;
 };
+
+export const addReview = async (signal, trainingID, review, rating, userID) => {
+  const response = await $host.post("/api/training/review", {
+    signal,
+    trainingID,
+    userID,
+    review,
+    rating
+  });
+
+  handleErrors(response);
+
+  return response.data;
+}

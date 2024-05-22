@@ -16,6 +16,10 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+a:hover {
+  color: initial !important;
+}
+
 .ant-form-item-label > label {
   font-size: 1rem !important;
   font-weight: bold !important;

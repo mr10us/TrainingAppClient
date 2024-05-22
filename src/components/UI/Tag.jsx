@@ -4,7 +4,7 @@ export const Tag = ({ tagID, handleClose, children }) => {
   return (
     <span className="inline-block drop-shadow-md">
       <AntTag
-        closable
+        closable={!!handleClose}
         bordered={false}
         color="orange"
         onClose={

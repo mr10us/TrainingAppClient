@@ -17,6 +17,7 @@ export const PageHeader = ({
   title,
   extra = null,
   noBackBtn = false,
+  customBack = null,
 }) => {
   const renderTitle = () => {
     const sizeKey = size?.toUpperCase();
@@ -37,19 +38,25 @@ export const PageHeader = ({
       >
         {!noBackBtn && (
           <div className="flex items-center justify-center">
-            <BackButton
-              withIcon
-              withText={false}
-              withBG={false}
-              withPadding={false}
-            />
+            {customBack ? (
+              customBack
+            ) : (
+              <BackButton
+                withIcon
+                withText={false}
+                withBG={false}
+                withPadding={false}
+              />
+            )}
           </div>
         )}
 
         <div className="text-center">{renderTitle()}</div>
 
         {extra && (
-          <div className="flex items-center justify-center drop-shadow-md pr-4">{extra}</div>
+          <div className="flex items-center justify-center drop-shadow-md pr-4">
+            {extra}
+          </div>
         )}
       </div>
     </div>

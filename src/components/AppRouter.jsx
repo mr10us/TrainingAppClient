@@ -2,10 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import { routes } from "@consts";
 import { StartupMenu } from "@pages/StartupMenu";
 import { Home } from "@pages/Home";
-import { ChooseTrainingType } from "@pages/ChooseTrainingType";
+import { ChooseTraining } from "@pages/ChooseTraining";
 import { BMI } from "@pages/BMI";
 import { Settings } from "@pages/Settings";
-import { TrainingPreview } from "@pages/TrainingPreview";
+import { TrainingPreview } from "@pages/Trainings/TrainingPreview";
 import { CreateTraining } from "@pages/Settings/Trainings/CreateTraining";
 import { CreateExercise } from "@pages/Settings/Exercixes/CreateExercise";
 import { EditTraining } from "@pages/Settings/Trainings/EditTraining";
@@ -18,6 +18,10 @@ import { EditCategory } from "@pages/Settings/Categories/EditCategory";
 import { Types } from "@pages/Settings/Types/Types";
 import { CreateType } from "@pages/Settings/Types/CreateType";
 import { EditType } from "@pages/Settings/Types/EditType";
+import { TrainingPage } from "@pages/Trainings/TrainingPage";
+import { TrainingReview } from "@pages/Trainings/TrainingReview";
+import { NotFound } from "./NotFound";
+import ErrorPage from "./ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -30,11 +34,19 @@ export const router = createBrowserRouter([
   },
   {
     path: routes.TRAININGS_LIST,
-    element: <ChooseTrainingType />,
+    element: <ChooseTraining />,
   },
   {
     path: routes.TRAINING_PREVIEW,
     element: <TrainingPreview />,
+  },
+  {
+    path: routes.TRAINING,
+    element: <TrainingPage />,
+  },
+  {
+    path: routes.TRAINING_REVIEW,
+    element: <TrainingReview />
   },
   {
     path: routes.BMI,
@@ -59,4 +71,8 @@ export const router = createBrowserRouter([
   {path: routes.ADMIN_TYPES, element: <Types />},
   {path: routes.CREATE_TYPE, element: <CreateType />},
   {path: routes.EDIT_TYPE, element: <EditType />},
+  {
+    path: "*",
+    element: <NotFound to={routes.HOME} />
+  }
 ]);

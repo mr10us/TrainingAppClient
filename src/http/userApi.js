@@ -27,6 +27,7 @@ export const login = async (signal, chatID) => {
   if (response.status === 200) {
     localStorage.setItem("token", "Token " + response.data.token);
     localStorage.setItem("role", response.data.user.role);
+    localStorage.setItem("userID", response.data.user.id);
   }
 
   return response.status;

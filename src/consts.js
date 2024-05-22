@@ -2,7 +2,9 @@ export const routes = {
   HOME: "/home/",
 
   TRAININGS_LIST: "/trainings/",
-  TRAINING_PREVIEW: "/trainings/:trainingID/",
+  TRAINING_PREVIEW: "/trainings/:trainingID/preview/",
+  TRAINING: "/trainings/:trainingID/",
+  TRAINING_REVIEW: "/trainings/:trainingID/review/",
 
   BMI: "/bmi-calc/",
 

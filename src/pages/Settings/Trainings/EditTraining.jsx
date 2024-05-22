@@ -123,7 +123,7 @@ export const EditTraining = () => {
         gender: { label: genders[data.gender], value: data.gender },
         level: { label: levels[data.level], value: data.level },
         exec_time: dayjs(data.exec_time, "HH:mm:ss"),
-        exercises: data.exercises.map((exercise) => ({
+        exercises: data?.exercises?.map((exercise) => ({
           label: exercise.title,
           value: exercise.id,
         })),
@@ -411,7 +411,7 @@ export const EditTraining = () => {
                 ))}
               </Select>
             </Form.Item>
-            {selectedExercises.length > 0 ? (
+            {selectedExercises?.length > 0 ? (
               <div className="mb-8">
                 <DndContext
                   modifiers={[restrictToVerticalAxis]}
