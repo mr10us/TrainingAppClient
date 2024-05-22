@@ -85,7 +85,7 @@ SortableExercises.Content = ({ title, content, video, categories, types }) => {
       <div className="flex flex-col gap-4">
         <h3 className="font-bold text-xl">{title}</h3>
         <p>{content}</p>
-        {categories.length > 0 ? (
+        {categories?.length > 0 ? (
           <div className="flex gap-2 flex-wrap">
             <p>Категорії: </p>
             {categories.map((category) => (
@@ -93,7 +93,7 @@ SortableExercises.Content = ({ title, content, video, categories, types }) => {
             ))}
           </div>
         ) : null}
-        {types.length > 0 ? (
+        {types?.length > 0 ? (
           <div className="flex gap-2 flex-wrap">
             <p>Типи: </p>
             {types.map((type) => (
