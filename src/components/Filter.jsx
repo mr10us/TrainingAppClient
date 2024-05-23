@@ -106,6 +106,7 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
             open={openDrawer.filter}
             style={{ backgroundColor: colors.brand, overflowY: "scroll" }}
             onClose={handleCloseFilterDrawer}
+            height={"calc()"}
           >
             <ConfigProvider theme={{ token: { colorText: "#333" } }}>
               <Collapse
@@ -163,7 +164,7 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
             open={openDrawer.sort}
             style={{ backgroundColor: colors.brand, overflowY: "scroll" }}
             onClose={handleCloseSortDrawer}
-            height={"fit-content"}
+            height={"calc()"}
           >
             <ConfigProvider theme={{ token: { colorText: "#333" } }}>
               <Collapse
