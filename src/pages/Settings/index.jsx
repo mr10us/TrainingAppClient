@@ -10,7 +10,6 @@ export const Settings = () => {
     <MainLayout>
       {role === "ADMIN" && <AdminSettings />}
       {role === "USER" && <CustomerSettings />}
-      {!role && <p>{localStorage.getItem("role")}</p>}
     </MainLayout>
   );
 };

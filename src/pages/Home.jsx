@@ -52,7 +52,7 @@ export const Home = () => {
             </motion.div>
           )}
           <motion.p
-            className="text-gray-100 py font-bold text-3xl mt-4"
+            className="text-gray-100 py font-bold text-3xl mt-4 w-min"
             variants={nameAnim}
             initial="hidden"
             animate="visible"
