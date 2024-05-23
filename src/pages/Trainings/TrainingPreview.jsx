@@ -79,7 +79,7 @@ export const TrainingPreview = () => {
               src={data.image}
               alt="training image"
               onError={(e) => (e.target.src = "/img/logo-bird.png")}
-              variants={itemsAnim}
+              variants={itemsAnim(0.1)}
               initial="hidden"
               animate="visible"
             />
