@@ -12,6 +12,7 @@ import VirtualList from "rc-virtual-list";
 import { Rating } from "@components/UI/Rating";
 import { getTypes } from "@http/typeApi";
 import { getCategories } from "@http/categoryApi";
+import { motion } from "framer-motion";
 
 const containerHeight = window.innerHeight - 128;
 
@@ -113,6 +114,27 @@ export const ChooseTraining = () => {
     }
   };
 
+  const springTransition = (delay) => ({
+    type: "spring",
+    stiffness: 300,
+    damping: 20,
+    delay,
+  });
+
+  const items = (delay) => ({
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: springTransition(delay),
+    },
+    hidden: {
+      opacity: 0,
+      y: -20,
+      scale: 0.5,
+    },
+  });
+
   const filterItems = useMemo(
     () => [
       {
@@ -198,35 +220,45 @@ export const ChooseTraining = () => {
               itemKey="id"
               onScroll={onScroll}
             >
-              {(item) => (
-                <Link
-                  to={routes.TRAININGS_LIST + item.id + "/preview/"}
-                  className="my-3 px-4 bg-yellow-50 rounded-lg shadow-md"
-                >
-                  <Badge.Ribbon text={genders[item.gender]}>
-                    <List.Item className="flex items-center justify-between w-full">
-                      <div className="basis-2/3 text-gray-950">
-                        <h2 className="font-bold text-lg">{item.title}</h2>
-                        <p>
-                          Час виконання: <i>{item.exec_time}</i>
-                        </p>
-                        <p>Тип: {levels[item.level]}</p>
-                        <div className="mt-1">
-                          <Rating rating={item.rating} readOnly allowHalf />
-                        </div>
-                      </div>
-                      <div className="basis-1/3 flex justify-center">
-                        <img
-                          className="rounded-md h-24 object-contain"
-                          src={item.image}
-                          alt="training image"
-                          onError={(e) => (e.target.src = "/img/logo-bird.png")}
-                        />
-                      </div>
-                    </List.Item>
-                  </Badge.Ribbon>
-                </Link>
-              )}
+              {(item, idx) => {
+                const delay =
+                  (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
+                return (
+                  <motion.span
+                    className="my-3 px-4 bg-yellow-50 rounded-lg shadow-md"
+                    variants={items(delay)}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <Link to={routes.TRAININGS_LIST + item.id + "/preview/"}>
+                      <Badge.Ribbon text={genders[item.gender]}>
+                        <List.Item className="flex items-center justify-between w-full">
+                          <div className="basis-2/3 text-gray-950">
+                            <h2 className="font-bold text-lg">{item.title}</h2>
+                            <p>
+                              Час виконання: <i>{item.exec_time}</i>
+                            </p>
+                            <p>Тип: {levels[item.level]}</p>
+                            <div className="mt-1">
+                              <Rating rating={item.rating} readOnly allowHalf />
+                            </div>
+                          </div>
+                          <div className="basis-1/3 flex justify-center">
+                            <img
+                              className="rounded-md h-24 object-contain"
+                              src={item.image}
+                              alt="training image"
+                              onError={(e) =>
+                                (e.target.src = "/img/logo-bird.png")
+                              }
+                            />
+                          </div>
+                        </List.Item>
+                      </Badge.Ribbon>
+                    </Link>
+                  </motion.span>
+                );
+              }}
             </VirtualList>
           </List>
           <Filter filterItems={filterItems} query={query} setQuery={setQuery} />

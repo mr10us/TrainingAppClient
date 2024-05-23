@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { handleErrors } from "@utils/handlers/http";
 import { NotFound } from "@components/NotFound";
 import { HomeButton } from "@components/UI/HomeButton";
+import { motion } from "framer-motion";
 
 export const TrainingReview = () => {
   const [rating, setRating] = useState(null);
@@ -56,8 +57,16 @@ export const TrainingReview = () => {
   });
 
   useEffect(() => {
-    return () => {message.success("Тренування завершене")};
+    return () => {
+      message.success("Тренування завершене");
+    };
   }, []);
+
+
+  const reviewAnim = {
+    visible: {opacity: 1, transition: {duration: 1}},
+    hidden: {opacity: 0}
+  }
 
   return (
     <MainLayout>
@@ -66,7 +75,13 @@ export const TrainingReview = () => {
         size={"small"}
         customBack={<HomeButton />}
       />
-      <div className="m-4" style={{ height: "calc(100% - 128px)" }}>
+      <motion.div
+        className="m-4"
+        style={{ height: "calc(100% - 128px)" }}
+        variants={reviewAnim}
+        initial="hidden"
+        animate="visible"
+      >
         <Form onFinish={mutation.mutate} className="h-full w-full">
           <div className="flex flex-col justify-between gap-4 text-gray-100 h-full">
             <div className="flex justify-between gap-4 flex-col">
@@ -90,7 +105,7 @@ export const TrainingReview = () => {
             </Button>
           </div>
         </Form>
-      </div>
+      </motion.div>
     </MainLayout>
   );
 };

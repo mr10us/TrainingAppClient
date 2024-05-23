@@ -1,4 +1,5 @@
 import BackButton from "./UI/BackButton";
+import { motion } from "framer-motion";
 
 const sizes = {
   LARGE: (title) => (
@@ -26,8 +27,23 @@ export const PageHeader = ({
     return sizes.MEDIUM(title);
   };
 
+  const headerAnim = {
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+    hidden: {
+      y: -50,
+      opacity: 0,
+    },
+  };
+
   return (
-    <div className="relative h-20">
+    <motion.div className="relative h-20" variants={headerAnim} initial="hidden" animate="visible">
       <div
         className="grid fixed grid-cols-3 w-full h-20 items-center gap-4 shadow-sm"
         style={{
@@ -59,6 +75,6 @@ export const PageHeader = ({
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

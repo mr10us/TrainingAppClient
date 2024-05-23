@@ -1,11 +1,39 @@
 import { routes } from "@consts";
 import { FaArrowLeft, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const Navigation = ({ children }) => {
+  const navAnim = {
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        stiffness: 100,
+        damping: 15,
+        delay: .4
+      },
+    },
+    hidden: {
+      y: 50,
+      opacity: 0,
+      transition: {
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+  };
+
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-brand w-3/4 h-12 flex justify-center items-center rounded-2xl">
-      {children}
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-12">
+      <motion.div
+        className="bg-brand w-full flex justify-center items-center rounded-2xl"
+        variants={navAnim}
+        initial="hidden"
+        animate="visible"
+      >
+        {children}
+      </motion.div>
     </div>
   );
 };
