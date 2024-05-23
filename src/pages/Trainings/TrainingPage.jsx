@@ -85,7 +85,7 @@ export const TrainingPage = () => {
                 exit="exit"
               >
                 <div className="w-72 mx-auto mb-4">
-                  <CustomPlayer src={exercise.video} />
+                  <CustomPlayer src={exercise.video} autoPlay poster={exercise?.preview}/>
                 </div>
                 <div className="flex flex-col gap-4">
                   <h2 className="text-3xl font-bold text-gray-100">

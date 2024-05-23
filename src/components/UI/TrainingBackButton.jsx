@@ -19,6 +19,7 @@ export const TrainingBackButton = () => {
       okText: "Так",
       cancelText: "Скасувати",
       onOk: () => {
+        localStorage.removeItem("training");
         navigate(routes.TRAININGS_LIST);
       },
     });
