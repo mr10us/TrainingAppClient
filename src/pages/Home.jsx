@@ -30,7 +30,6 @@ export const Home = () => {
     <MainLayout>
       <div className="flex flex-col justify-between h-screen">
         <div className="pt-8 px-4 flex flex-row-reverse justify-between">
-          <p className="text-wrap">{JSON.stringify(user)}</p>
           {image ? (
             <motion.img
               className="size-16 object-contain"
