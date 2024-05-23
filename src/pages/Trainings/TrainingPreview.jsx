@@ -140,13 +140,12 @@ export const TrainingPreview = () => {
                       (idx + 1) % 10 === 0 ? 1.6 : ((idx + 1) % 10) * 0.1 + 0.6;
                     return (
                       <motion.span
+                        key={type.id}
                         variants={itemsAnim(delay)}
                         initial="hidden"
                         animate="visible"
                       >
-                        <Tag key={type.id} tagID={type.id}>
-                          {type.name}
-                        </Tag>
+                        <Tag tagID={type.id}>{type.name}</Tag>
                       </motion.span>
                     );
                   })}
@@ -169,13 +168,12 @@ export const TrainingPreview = () => {
                       (idx + 1) % 10 === 0 ? 1.6 : ((idx + 1) % 10) * 0.1 + 0.6;
                     return (
                       <motion.span
+                        key={category.id}
                         variants={itemsAnim(delay)}
                         initial="hidden"
                         animate="visible"
                       >
-                        <Tag key={category.id} tagID={category.id}>
-                          {category.name}
-                        </Tag>
+                        <Tag tagID={category.id}>{category.name}</Tag>
                       </motion.span>
                     );
                   })}

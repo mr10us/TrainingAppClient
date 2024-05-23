@@ -13,6 +13,7 @@ import { Rating } from "@components/UI/Rating";
 import { getTypes } from "@http/typeApi";
 import { getCategories } from "@http/categoryApi";
 import { motion } from "framer-motion";
+import { Empty } from "@components/UI/Empty";
 
 const containerHeight = window.innerHeight - 128;
 
@@ -168,7 +169,7 @@ export const ChooseTraining = () => {
         label: "Рейтинг",
         type: "rating",
         children: (
-          <Filter.Checkbox
+          <Filter.Radio
             buttons={[
               { value: "high", children: <p>Високий</p> },
               { value: "middle", children: <p>Середній</p> },
@@ -213,54 +214,62 @@ export const ChooseTraining = () => {
       {isLoading && <Loader />}
       {isSuccess && (
         <>
-          <List className="m-4">
-            <VirtualList
-              data={trainings}
-              height={containerHeight}
-              itemKey="id"
-              onScroll={onScroll}
-            >
-              {(item, idx) => {
-                const delay =
-                  (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
-                return (
-                  <motion.span
-                    className="my-3 px-4 bg-yellow-50 rounded-lg shadow-md"
-                    variants={items(delay)}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    <Link to={routes.TRAININGS_LIST + item.id + "/preview/"}>
-                      <Badge.Ribbon text={genders[item.gender]}>
-                        <List.Item className="flex items-center justify-between w-full">
-                          <div className="basis-2/3 text-gray-950">
-                            <h2 className="font-bold text-lg">{item.title}</h2>
-                            <p>
-                              Час виконання: <i>{item.exec_time}</i>
-                            </p>
-                            <p>Тип: {levels[item.level]}</p>
-                            <div className="mt-1">
-                              <Rating rating={item.rating} readOnly allowHalf />
+          {trainings?.length > 0 ?
+            <List className="m-4">
+              <VirtualList
+                data={trainings}
+                height={containerHeight}
+                itemKey="id"
+                onScroll={onScroll}
+              >
+                {(item, idx) => {
+                  const delay =
+                    (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
+                  return (
+                    <motion.span
+                      className="my-3 px-4 bg-yellow-50 rounded-lg shadow-md"
+                      variants={items(delay)}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      <Link to={routes.TRAININGS_LIST + item.id + "/preview/"}>
+                        <Badge.Ribbon text={genders[item.gender]}>
+                          <List.Item className="flex items-center justify-between w-full">
+                            <div className="basis-2/3 text-gray-950">
+                              <h2 className="font-bold text-lg">
+                                {item.title}
+                              </h2>
+                              <p>
+                                Час виконання: <i>{item.exec_time}</i>
+                              </p>
+                              <p>Тип: {levels[item.level]}</p>
+                              <div className="mt-1">
+                                <Rating
+                                  rating={item.rating}
+                                  readOnly
+                                  allowHalf
+                                />
+                              </div>
                             </div>
-                          </div>
-                          <div className="basis-1/3 flex justify-center">
-                            <img
-                              className="rounded-md h-24 object-contain"
-                              src={item.image}
-                              alt="training image"
-                              onError={(e) =>
-                                (e.target.src = "/img/logo-bird.png")
-                              }
-                            />
-                          </div>
-                        </List.Item>
-                      </Badge.Ribbon>
-                    </Link>
-                  </motion.span>
-                );
-              }}
-            </VirtualList>
-          </List>
+                            <div className="basis-1/3 flex justify-center">
+                              <img
+                                className="rounded-md h-24 object-contain"
+                                src={item.image}
+                                alt="training image"
+                                onError={(e) =>
+                                  (e.target.src = "/img/logo-bird.png")
+                                }
+                              />
+                            </div>
+                          </List.Item>
+                        </Badge.Ribbon>
+                      </Link>
+                    </motion.span>
+                  );
+                }}
+              </VirtualList>
+            </List>
+          : <Empty description={"Пусто"}/>}
           <Filter filterItems={filterItems} query={query} setQuery={setQuery} />
         </>
       )}

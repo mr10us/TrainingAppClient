@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Badge,
   Button,
   Checkbox,
   Collapse,
@@ -18,23 +19,26 @@ import { filterHelper } from "@utils/filterHelper";
 const { RangePicker } = DatePicker;
 
 export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
-  const [openDrawer, setOpenDrawer] = useState({sort: false, filter: false});
+  const [openDrawer, setOpenDrawer] = useState({ sort: false, filter: false });
   const [filterValues, setFilterValues] = useState({});
   const [sortValues, setSortValues] = useState({});
 
+  const filterValuesExist = Object.keys(filterValues).length > 0;
+  const sortValuesExist = Object.keys(sortValues).length > 0;
+
   const handleOpenSortDrawer = () => {
-    setOpenDrawer(prev => ({...prev, sort: true}))
-  }
+    setOpenDrawer((prev) => ({ ...prev, sort: true }));
+  };
   const handleCloseSortDrawer = () => {
-    setOpenDrawer(prev => ({...prev, sort: false}))
-  }
+    setOpenDrawer((prev) => ({ ...prev, sort: false }));
+  };
 
   const handleOpenFilterDrawer = () => {
-    setOpenDrawer(prev => ({...prev, filter: true}))
-  }
+    setOpenDrawer((prev) => ({ ...prev, filter: true }));
+  };
   const handleCloseFilterDrawer = () => {
-    setOpenDrawer(prev => ({...prev, filter: false}))
-  }
+    setOpenDrawer((prev) => ({ ...prev, filter: false }));
+  };
 
   const handleFilterChange = (type, value) => {
     setFilterValues((prevValues) => ({
@@ -67,16 +71,16 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
     const newQuery = filterHelper.objToQuery(sortValues);
 
     setSortValues({});
-    handleCloseSortDrawer()
+    handleCloseSortDrawer();
 
     setTimeout(() => {
-      setQuery(prev => prev.replace(newQuery, ""));
+      setQuery((prev) => prev.replace(newQuery, ""));
     }, 500);
   };
 
   const applySort = () => {
     const query = filterHelper.objToQuery(sortValues);
-    handleCloseSortDrawer()
+    handleCloseSortDrawer();
 
     setTimeout(() => {
       if (query) setQuery((prev) => prev + `&${query}`);
@@ -94,12 +98,20 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
     <Navigation>
       {filterItems?.length > 0 ? (
         <Navigation.Item>
-          <p
-            className="text-gray-100 w-full inline-block font-bold text-xl"
-            onClick={handleOpenFilterDrawer}
+          <Badge
+            count={
+              filterValuesExist ? (
+                <div className="rounded-full size-2 bg-red-600" />
+              ) : null
+            }
           >
-            Фільтрувати
-          </p>
+            <p
+              className="text-gray-100 w-full inline-block font-bold text-xl"
+              onClick={handleOpenFilterDrawer}
+            >
+              Фільтрувати
+            </p>
+          </Badge>
           <Drawer
             placement="bottom"
             closeIcon={null}
@@ -152,12 +164,20 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
       ) : null}
       {sortItems?.length > 0 ? (
         <Navigation.Item>
+          <Badge
+            count={
+              sortValuesExist ? (
+                <div className="rounded-full size-2 bg-red-600" />
+              ) : null
+            }
+          >
           <p
             className="text-gray-100 w-full inline-block font-bold text-xl"
             onClick={handleOpenSortDrawer}
           >
             Сортувати
           </p>
+          </Badge>
           <Drawer
             placement="bottom"
             closeIcon={null}
@@ -218,7 +238,7 @@ Filter.Radio = ({ buttons, onChange, value }) => {
       <Space direction="vertical">
         {buttons.map((button, idx) => (
           <Radio key={idx} value={button.value}>
-            {button.name}
+            {button.children}
           </Radio>
         ))}
       </Space>

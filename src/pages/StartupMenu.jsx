@@ -7,9 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import { login } from "@http/userApi";
 
 export const StartupMenu = () => {
-  const { tg, user } = useTelegram();
+  const { tg } = useTelegram();
  
-  // const user = { id: 340167417 };
+  const user = { id: 340167417 };
 
   useQuery({
     queryKey: ["login"],
