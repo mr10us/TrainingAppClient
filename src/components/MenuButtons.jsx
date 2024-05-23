@@ -35,10 +35,11 @@ export const MenuButtons = () => {
         initial="hidden"
         animate="visible"
         className="flex-1, w-full"
+        style={{height: 140}}
       >
         <Link
           to={routes.TRAININGS_LIST}
-          className="p-4 flex justify-center items-center flex-col bg-orange-300 rounded-lg shadow-md text-center"
+          className="p-4 flex justify-center items-center flex-col bg-orange-300 rounded-lg shadow-md text-center h-full"
         >
           <FaDumbbell size={50} className="text-yellow-300" />
           <div className="text-lg mt-2 text-wrap text-gray-100 font-bold">
