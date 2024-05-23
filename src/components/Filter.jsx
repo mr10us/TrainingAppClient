@@ -106,7 +106,6 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
             open={openDrawer.filter}
             style={{ backgroundColor: colors.brand, overflowY: "scroll" }}
             onClose={handleCloseFilterDrawer}
-            height={"fit-content"}
           >
             <ConfigProvider theme={{ token: { colorText: "#333" } }}>
               <Collapse
