@@ -29,7 +29,7 @@ export const StartupMenu = () => {
         <div className="text-center">
           <img src={logoBird} alt="Logo bird" className="h-40 mx-auto mb-4" />
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Вітаємо у Грифф
+            Вітаю
           </h1>
           <p className="text-gray-600 mb-6">
             Я Ваш віртуальний тренер і готовий вести Вас до нових перемог!

@@ -29,12 +29,6 @@ export default defineConfig({
   //   rollupOptions: {
   //     output: {
   //       manualChunks(id) {
-  //         if (
-  //           id.includes("react-pdf") ||
-  //           id.includes("pdfjs-dist/build/pdf.js")
-  //         ) {
-  //           return "react-pdf";
-  //         }
   //         if (id.includes("antd")) {
   //           return "ant-design";
   //         }
