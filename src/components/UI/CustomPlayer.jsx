@@ -21,6 +21,7 @@ export const CustomPlayer = ({ src, autoPlay = false, poster = null }) => {
             onError={handleError}
             autoPlay={autoPlay}
             poster={poster}
+            muted
           >
             <ControlBar disableCompletely />
             <BigPlayButton position="center" />
