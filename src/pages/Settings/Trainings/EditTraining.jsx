@@ -130,7 +130,7 @@ export const EditTraining = () => {
         title: data.title,
         content: data.content,
       });
-      setSelectedExercises(data.exercises);
+      setSelectedExercises(data?.exercises || []);
       setPhoto({ file: null, url: data.image });
     }
   }, [isSuccess, data]);
@@ -168,7 +168,10 @@ export const EditTraining = () => {
     const selectedExercise = exercises.find(
       (exercise) => exercise.id === value
     );
-    setSelectedExercises((prevState) => [...prevState, selectedExercise]);
+    setSelectedExercises((prevState) => {
+      console.log(prevState)
+      return [...prevState, selectedExercise];
+    });
   };
 
   const getExerciseId = (id) =>
@@ -210,7 +213,7 @@ export const EditTraining = () => {
 
   const handleDeleteTraining = async () => {
     await deleteTraining(null, trainingID);
-  }
+  };
 
   const deleteTrainingMutation = useMutation({
     mutationFn: handleDeleteTraining,
@@ -222,7 +225,7 @@ export const EditTraining = () => {
     onError: (error) => {
       message.error(error.message);
     },
-  })
+  });
 
   const handleEditTraining = async (values) => {
     const title = values.title;
