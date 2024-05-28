@@ -87,9 +87,9 @@ export const Trainings = () => {
                       <h2 className="font-bold text-xl">{item.title}</h2>
                       <p className="font-bold ">Рівень: {levels[item.level]}</p>
                     </div>
-                    <div className="basis-1/3 flex items-center justify-center">
+                    <div className="basis-1/3 flex items-center justify-center rounded-md overflow-hidden">
                       <img
-                        className="rounded-md h-24 object-contain"
+                        className="h-24 object-contain"
                         src={item.image}
                         alt="exercise image"
                         onError={(e) => (e.target.src = "/img/logo-bird.png")}

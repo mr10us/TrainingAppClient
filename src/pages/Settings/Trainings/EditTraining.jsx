@@ -408,17 +408,19 @@ export const EditTraining = () => {
                 onDeselect={({ value }) => handleExerciseRemove(value)}
               >
                 {exercises.map((exercise) => (
-                  <Select.Option key={exercise.id} value={exercise.id} label={exercise.title}>
-                    <Flex justify="space-between" gap={8}>
-                      <p className="text-xl">
-                      {exercise.title}
-                      </p>
-                      <div className="w-14 rounded overflow-hidden">
-                      <img
-                        src={exercise?.preview}
-                        alt="exercise preview"
-                        onError={(e) => (e.target.src = "/img/logo-bird.png")}
-                      />
+                  <Select.Option
+                    key={exercise.id}
+                    value={exercise.id}
+                    label={exercise.title}
+                  >
+                    <Flex justify="space-between" gap={8} className="w-full">
+                      <p className="text-xl max-w-1/2">{exercise.title}</p>
+                      <div className="size-14 rounded overflow-hidden">
+                        <img
+                          src={exercise?.preview}
+                          alt="exercise preview"
+                          onError={(e) => (e.target.src = "/img/logo-bird.png")}
+                        />
                       </div>
                     </Flex>
                   </Select.Option>
