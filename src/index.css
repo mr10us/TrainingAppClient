@@ -50,3 +50,6 @@ a:hover {
 .ant-collapse-header {
   align-items: center !important;
 }
+.ant-select-item-option-state {
+  margin-left: 5px;
+}

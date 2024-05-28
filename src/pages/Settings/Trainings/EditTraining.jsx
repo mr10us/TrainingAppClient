@@ -413,8 +413,8 @@ export const EditTraining = () => {
                     value={exercise.id}
                     label={exercise.title}
                   >
-                    <Flex justify="space-between" gap={8} className="w-full">
-                      <p className="text-xl max-w-1/2">{exercise.title}</p>
+                    <Flex justify="space-between" gap={16} className="w-full">
+                      <p className="text-xl max-w-1/2 text-wrap">{exercise.title}</p>
                       <div className="size-14 rounded overflow-hidden">
                         <img
                           src={exercise?.preview}
