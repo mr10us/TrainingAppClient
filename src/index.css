@@ -9,14 +9,21 @@ body {
   background-attachment: fixed;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  overscroll-behavior-y: none;
 }
 
 body * {
   font-family: "Ubuntu", sans-serif;
 }
 
-body::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar { /* chrome based */
+  width: 0px;  /* ширина scrollbar'a */
+  background: transparent;  /* опционально */
+}
+
+html {
+  -ms-overflow-style: none;  /* IE 10+ */
+  scrollbar-width: none; /* Firefox */
 }
 
 a:hover {
