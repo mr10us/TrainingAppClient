@@ -14,7 +14,7 @@ export const Home = () => {
   const image = user?.photo_url || null;
   const name = user ? user?.first_name || user?.username : "друже";
 
-  const { notification } = App.useApp();
+  const { notification, message } = App.useApp();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +24,13 @@ export const Home = () => {
       );
       notification.destroy("unfinishedTrainingNotification");
     };
+
+    const handleFinishTraining = () => {
+      localStorage.removeItem("training");
+      message.success("Тренування завершене")
+
+      notification.destroy("unfinishedTrainingNotification");
+    }
 
     const training = localStorage.getItem("training");
     if (training) {
@@ -50,7 +57,7 @@ export const Home = () => {
             type="primary"
             danger
             icon={<MdOutlineDeleteForever />}
-            onClick={localStorage.removeItem("training")}
+            onClick={handleFinishTraining}
           />
           
           </Space>
