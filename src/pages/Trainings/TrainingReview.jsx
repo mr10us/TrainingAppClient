@@ -100,7 +100,7 @@ export const TrainingReview = () => {
                 <Rating allowHalf onChange={handleRatingChange} />
               </div>
             </div>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" size="large">
               Завершити тренування
             </Button>
           </div>

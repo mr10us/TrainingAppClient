@@ -3,10 +3,11 @@ import { MainLayout } from "../layouts/MainLayout";
 import React, { useEffect } from "react";
 import { MenuButtons } from "@components/MenuButtons";
 import { motion } from "framer-motion";
-import { App, Button } from "antd";
+import { App, Button, Space } from "antd";
 import { GiFinishLine } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@consts";
+import { MdOutlineDeleteForever } from "react-icons/md";
 
 export const Home = () => {
   const { user } = useTelegram();
@@ -37,6 +38,7 @@ export const Home = () => {
         className: "drop-shadow",
         placement: "top",
         btn: (
+          <Space size={"middle"}>
           <Button
             type="primary"
             onClick={() => handleContinueTraining(trainingData)}
@@ -44,6 +46,14 @@ export const Home = () => {
           >
             Продовжити тренування
           </Button>
+          <Button
+            type="primary"
+            danger
+            icon={<MdOutlineDeleteForever />}
+            onClick={localStorage.removeItem("training")}
+          />
+          
+          </Space>
         ),
         showProgress: true,
       });
