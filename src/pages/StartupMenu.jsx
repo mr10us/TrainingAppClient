@@ -8,14 +8,12 @@ import { login } from "@http/userApi";
 
 export const StartupMenu = () => {
   const { tg, user } = useTelegram();
- 
+
   // const user = { id: 340167417 };
 
   useQuery({
     queryKey: ["login"],
-    queryFn: ({ signal }) => {
-      return login(signal, user.id);
-    },
+    queryFn: ({ signal }) => login(signal, user.id),
   });
 
   useEffect(() => {
@@ -28,9 +26,7 @@ export const StartupMenu = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg">
         <div className="text-center">
           <img src={logoBird} alt="Logo bird" className="h-40 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Вітаю
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Вітаю</h1>
           <p className="text-gray-600 mb-6">
             Я Ваш віртуальний тренер і готовий вести Вас до нових перемог!
           </p>

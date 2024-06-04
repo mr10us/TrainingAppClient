@@ -68,7 +68,11 @@ export const TrainingPage = () => {
 
   return (
     <MainLayout>
-      <PageHeader title={training.name} size="small" customBack={<TrainingBackButton />} />
+      <PageHeader
+        title={training.name}
+        size="small"
+        customBack={<TrainingBackButton />}
+      />
       {exercise && (
         <div
           className="m-4 flex flex-col justify-between"
@@ -84,14 +88,18 @@ export const TrainingPage = () => {
                 animate="visible"
                 exit="exit"
               >
-                <div className="w-72 mx-auto mb-4">
-                  <CustomPlayer src={exercise.video} autoPlay poster={exercise?.preview}/>
-                </div>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 mb-4">
                   <h2 className="text-3xl font-bold text-gray-100">
                     {exercise.title}
                   </h2>
                   <p className="text-gray-100 text-lg">{exercise.content}</p>
+                </div>
+                <div className="w-72 mx-auto">
+                  <CustomPlayer
+                    src={exercise.video}
+                    poster={exercise?.preview}
+                    autoPlay
+                  />
                 </div>
               </motion.div>
             )}

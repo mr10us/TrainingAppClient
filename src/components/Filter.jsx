@@ -47,6 +47,13 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
     }));
   };
 
+  const handleSortChange = (type, value) => {
+    setSortValues((prevValues) => ({
+      ...prevValues,
+      [type]: value,
+    }));
+  };
+
   const resetFilter = () => {
     const newQuery = filterHelper.objToQuery(filterValues);
 
@@ -83,8 +90,7 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
     handleCloseSortDrawer();
 
     setTimeout(() => {
-      if (query) setQuery((prev) => prev + `&${query}`);
-      else setQuery(query);
+      setQuery(query);
     }, 500);
   };
 
@@ -171,12 +177,12 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
               ) : null
             }
           >
-          <p
-            className="text-gray-100 w-full inline-block font-bold text-xl"
-            onClick={handleOpenSortDrawer}
-          >
-            Сортувати
-          </p>
+            <p
+              className="text-gray-100 w-full inline-block font-bold text-xl"
+              onClick={handleOpenSortDrawer}
+            >
+              Сортувати
+            </p>
           </Badge>
           <Drawer
             placement="bottom"
@@ -198,8 +204,8 @@ export const Filter = ({ filterItems, sortItems, query, setQuery }) => {
                   return {
                     ...rest,
                     children: React.cloneElement(children, {
-                      onChange: (value) => handleFilterChange(type, value),
-                      value: filterValues[type],
+                      onChange: (value) => handleSortChange(type, value),
+                      value: sortValues[type],
                     }),
                   };
                 })}

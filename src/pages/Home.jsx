@@ -1,13 +1,54 @@
 import { useTelegram } from "@hooks/useTelegram";
 import { MainLayout } from "../layouts/MainLayout";
-import React from "react";
+import React, { useEffect } from "react";
 import { MenuButtons } from "@components/MenuButtons";
 import { motion } from "framer-motion";
+import { App, Button } from "antd";
+import { GiFinishLine } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
+import { routes } from "@consts";
 
 export const Home = () => {
   const { user } = useTelegram();
   const image = user?.photo_url || null;
   const name = user ? user?.first_name || user?.username : "друже";
+
+  const { notification } = App.useApp();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleContinueTraining = (trainingData) => {
+      navigate(
+        `${routes.TRAININGS_LIST}${trainingData.id}/?id=${trainingData.id}&current=${trainingData.current}`
+      );
+      notification.destroy("unfinishedTrainingNotification");
+    };
+
+    const training = localStorage.getItem("training");
+    if (training) {
+      const trainingData = JSON.parse(training);
+      notification.info({
+        key: "unfinishedTrainingNotification",
+        icon: <GiFinishLine />,
+        message: trainingData.name,
+        description:
+          "Схоже Ви не закінчили минуле тренування. Бажаєте продовжити?",
+        duration: 7.5,
+        className: "drop-shadow",
+        placement: "top",
+        btn: (
+          <Button
+            type="primary"
+            onClick={() => handleContinueTraining(trainingData)}
+            block
+          >
+            Продовжити тренування
+          </Button>
+        ),
+        showProgress: true,
+      });
+    }
+  }, []);
 
   const nameAnim = {
     visible: {

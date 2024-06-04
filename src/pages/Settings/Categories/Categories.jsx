@@ -3,7 +3,7 @@ import { MainLayout } from "../../../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import { PageHeader } from "@components/PageHeader";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { List } from "antd";
 import { IoAdd } from "react-icons/io5";
 import VirtualList from "rc-virtual-list";
@@ -13,7 +13,7 @@ import { getCategories } from "@http/categoryApi";
 const containerHeight = window.innerHeight - 128;
 
 export const Categories = () => {
-  const query = "";
+  const [query, setQuery] = useState("");
 
   const { data, isLoading, isSuccess, isError, error, fetchNextPage } =
     useInfiniteQuery({
@@ -43,7 +43,21 @@ export const Categories = () => {
     }
   };
 
-  const filterOptions = [{ key: "" }];
+  const sortItems = [
+    {
+      key: "sortBy",
+      label: "Назвою",
+      type: "sortBy",
+      children: (
+        <Filter.Radio
+          buttons={[
+            { value: "+name", children: <p>За алфавітом</p> },
+            { value: "-name", children: <p>Проти алфавіту</p> },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
     <MainLayout>
@@ -77,7 +91,7 @@ export const Categories = () => {
           )}
         </VirtualList>
       </List>
-      <Filter />
+      <Filter sortItems={sortItems} query={query} setQuery={setQuery}/>
     </MainLayout>
   );
 };

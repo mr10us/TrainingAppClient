@@ -9,7 +9,6 @@ body {
   background-attachment: fixed;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  overscroll-behavior-y: none;
 }
 
 body * {
@@ -59,4 +58,7 @@ a:hover {
 }
 .ant-select-item-option-state {
   margin-left: 5px;
+}
+.ant-notification-notice-description {
+  margin-inline-start: unset !important;
 }

@@ -43,34 +43,21 @@ export const Types = () => {
     }
   };
 
-  const filterItems = [
-    {
-      key: 1,
-      label: "test1",
-      type: "test1",
-      children: <Filter.Checkbox />
-    },
-    {
-      key: 2,
-      label: "test2",
-      type: "test2",
-      children: <Filter.Checkbox />
-    }
-  ]
   const sortItems = [
     {
-      key: 1,
-      label: "test3",
-      type: "test3",
-      children: <Filter.Checkbox />
+      key: "sortBy",
+      label: "Назвою",
+      type: "sortBy",
+      children: (
+        <Filter.Radio
+          buttons={[
+            { value: "+name", children: <p>За алфавітом</p> },
+            { value: "-name", children: <p>Проти алфавіту</p> },
+          ]}
+        />
+      ),
     },
-    {
-      key: 2,
-      label: "test4",
-      type: "test4",
-      children: <Filter.Checkbox />
-    }
-  ]
+  ];
 
   return (
     <MainLayout>
@@ -104,7 +91,7 @@ export const Types = () => {
           )}
         </VirtualList>
       </List>
-      <Filter sortItems={sortItems} filterItems={filterItems}/>
+      <Filter sortItems={sortItems} query={query} setQuery={setQuery} />
     </MainLayout>
   );
 };
