@@ -1,3 +1,3 @@
 export const MainLayout = (props) => {
-  return <div {...props} className="h-screen">{props.children}</div>;
+  return <div {...props} style={{height: "100dvh"}}>{props.children}</div>;
 };
