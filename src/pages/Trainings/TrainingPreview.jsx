@@ -78,7 +78,7 @@ export const TrainingPreview = () => {
               className="object-contain rounded-2xl shadow-lg w-full mx-auto"
               src={data.image}
               alt="training image"
-              onError={(e) => (e.target.src = "/img/logo-bird.png")}
+              onError={(e) => (e.target.src = import.meta.env.VITE_DEFAULT_PIC)}
               variants={itemsAnim(0.1)}
               initial="hidden"
               animate="visible"

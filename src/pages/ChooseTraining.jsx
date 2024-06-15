@@ -257,7 +257,7 @@ export const ChooseTraining = () => {
                                 src={item.image}
                                 alt="training image"
                                 onError={(e) =>
-                                  (e.target.src = "/img/logo-bird.png")
+                                  (e.target.src = import.meta.env.VITE_DEFAULT_PIC)
                                 }
                               />
                             </div>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { routes } from "@consts";
-import logoBird from "/img/logo-bird.png";
+import logoBird from import.meta.env.VITE_DEFAULT_PIC;
 import { useEffect } from "react";
 import { useTelegram } from "@hooks/useTelegram";
 import { useQuery } from "@tanstack/react-query";

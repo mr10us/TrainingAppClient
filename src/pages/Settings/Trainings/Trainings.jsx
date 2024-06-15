@@ -92,7 +92,7 @@ export const Trainings = () => {
                         className="h-24 object-contain"
                         src={item.image}
                         alt="exercise image"
-                        onError={(e) => (e.target.src = "/img/logo-bird.png")}
+                        onError={(e) => (e.target.src = import.meta.env.VITE_DEFAULT_PIC)}
                       />
                     </div>
                   </div>

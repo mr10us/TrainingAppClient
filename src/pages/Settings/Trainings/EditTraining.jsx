@@ -314,7 +314,7 @@ export const EditTraining = () => {
                     className="w-full object-cover rounded-xl"
                     alt="training preview"
                     onError={(e) => {
-                      e.target.src = "/img/logo-bird.png";
+                      e.target.src = import.meta.env.VITE_DEFAULT_PIC;
                     }}
                   />
                   <div
@@ -419,7 +419,7 @@ export const EditTraining = () => {
                         <img
                           src={exercise?.preview}
                           alt="exercise preview"
-                          onError={(e) => (e.target.src = "/img/logo-bird.png")}
+                          onError={(e) => (e.target.src = import.meta.env.VITE_DEFAULT_PIC)}
                         />
                       </div>
                     </Flex>
