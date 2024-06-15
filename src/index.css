@@ -9,6 +9,7 @@ body {
   background-attachment: fixed;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  height: 100dvh;
 }
 
 body * {
@@ -23,7 +24,6 @@ body * {
 html {
   -ms-overflow-style: none;  /* IE 10+ */
   scrollbar-width: none; /* Firefox */
-  height: 100dvh;
 }
 
 a:hover {
