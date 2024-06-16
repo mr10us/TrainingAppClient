@@ -4,7 +4,7 @@ const $host = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-const $adminHost = axios.create({
+const $authHost = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
@@ -13,11 +13,11 @@ const authInterceptor = (config) => {
   return config;
 };
 
-$adminHost.interceptors.request.use(authInterceptor);
-$adminHost.interceptors.response.use(
+$authHost.interceptors.request.use(authInterceptor);
+$authHost.interceptors.response.use(
   (response) => {
     return response;
   },
 );
 
-export { $host, $adminHost };
+export { $authHost };

@@ -1,11 +1,11 @@
-import { $adminHost, $host } from "./index";
+import { $authHost } from "./index";
 import { handleErrors } from "@utils/handlers/http";
 
 export const getTrainings = async (pageParam, query, signal) => {
   const queryParams = query
     ? `?page=${pageParam}&${query}`
     : `?page=${pageParam}`;
-  const response = await $host.get(`/api/training/${queryParams || ""}`, {
+  const response = await $authHost.get(`/api/training/${queryParams || ""}`, {
     signal,
   });
 
@@ -15,7 +15,7 @@ export const getTrainings = async (pageParam, query, signal) => {
 };
 
 export const getTraining = async (signal, trainingID) => {
-  const response = await $host.get(`/api/training/${trainingID}/`, { signal });
+  const response = await $authHost.get(`/api/training/${trainingID}/`, { signal });
 
   handleErrors(response);
 
@@ -41,7 +41,7 @@ export const createTraining = async (
   level && formData.append("level", level);
   exercises && formData.append("exercises", JSON.stringify(exercises));
 
-  const response = await $adminHost.post(`/api/training/`, formData, {
+  const response = await $authHost.post(`/api/training/`, formData, {
     signal,
     headers: {
       "Content-Type": "multipart/form-data",
@@ -74,7 +74,7 @@ export const editTraining = async (
   exercises && formData.append("exercises", JSON.stringify(exercises));
 
   
-  const response = await $adminHost.patch(
+  const response = await $authHost.patch(
     `/api/training/${trainingID}`,
     formData,
     {
@@ -91,7 +91,7 @@ export const editTraining = async (
 };
 
 export const deleteTraining = async (signal, trainingID) => {
-  const response = await $adminHost.delete(`/api/training/${trainingID}`, {
+  const response = await $authHost.delete(`/api/training/${trainingID}`, {
     signal,
   });
 
@@ -101,7 +101,7 @@ export const deleteTraining = async (signal, trainingID) => {
 };
 
 export const addReview = async (signal, trainingID, review, rating, userID) => {
-  const response = await $host.post("/api/training/review", {
+  const response = await $authHost.post("/api/training/review", {
     signal,
     trainingID,
     userID,

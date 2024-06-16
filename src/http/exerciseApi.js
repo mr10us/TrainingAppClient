@@ -1,11 +1,11 @@
-import { $adminHost, $host } from "./index";
+import { $authHost } from "./index";
 import { handleErrors } from "@utils/handlers/http";
 
 export const getExercises = async (pageParam, query, signal) => {
   const queryParams = query
     ? `?page=${pageParam}&${query}`
     : `?page=${pageParam}`;
-  const response = await $host.get(`/api/exercise/${queryParams || ""}`, {
+  const response = await $authHost.get(`/api/exercise/${queryParams || ""}`, {
     signal,
   });
 
@@ -15,7 +15,7 @@ export const getExercises = async (pageParam, query, signal) => {
 };
 
 export const getExercise = async (signal, exerciseID) => {
-  const response = await $host.get(`/api/exercise/${exerciseID}/`, { signal });
+  const response = await $authHost.get(`/api/exercise/${exerciseID}/`, { signal });
 
   handleErrors(response);
 

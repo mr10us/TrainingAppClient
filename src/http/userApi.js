@@ -1,8 +1,8 @@
 import { handleErrors } from "@utils/handlers/http";
-import { $host } from "./index";
+import { $authHost } from "./index";
 
 export const getUsers = async (signal, query) => {
-  const response = await $host.get(
+  const response = await $authHost.get(
     "/api/user/" + ((query !== undefined && "?" + query) || ""),
     { signal }
   );
@@ -12,15 +12,15 @@ export const getUsers = async (signal, query) => {
 };
 
 export const getUser = async (signal, userID) => {
-  const response = await $host.get(`/api/user/${userID}/`, { signal });
+  const response = await $authHost.get(`/api/user/${userID}/`, { signal });
 
   handleErrors(response);
 
   return response.data;
 };
 
-export const login = async (signal, chatID) => {
-  const response = await $host.post(`/api/user/login/`, { signal, chatID });
+export const login = async (signal, chatID, password) => {
+  const response = await $authHost.post(`/api/user/login/`, { signal, chatID, password });
 
   handleErrors(response);
 
@@ -30,5 +30,5 @@ export const login = async (signal, chatID) => {
     localStorage.setItem("userID", response.data.user.id);
   }
 
-  return response.status;
+  return response;
 };

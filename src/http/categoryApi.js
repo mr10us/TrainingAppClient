@@ -1,4 +1,4 @@
-import { $adminHost, $host } from "./index";
+import { $authHost } from "./index";
 import { handleErrors } from "@utils/handlers/http";
 
 export const getCategories = async (pageParam, query, signal) => {
@@ -6,7 +6,7 @@ export const getCategories = async (pageParam, query, signal) => {
     ? `?page=${pageParam}&${query}`
     : `?page=${pageParam}`;
 
-  const response = await $host.get(`/api/category/${queryParams || ""}`, {
+  const response = await $authHost.get(`/api/category/${queryParams || ""}`, {
     signal,
   });
 
@@ -16,7 +16,7 @@ export const getCategories = async (pageParam, query, signal) => {
 };
 
 export const getCategory = async (signal, categoryID) => {
-  const response = await $host.get(`/api/category/${categoryID}/`, { signal });
+  const response = await $authHost.get(`/api/category/${categoryID}/`, { signal });
 
   handleErrors(response);
 
@@ -24,7 +24,7 @@ export const getCategory = async (signal, categoryID) => {
 };
 
 export const createCategory = async (signal, name) => {
-  const response = await $adminHost.post(`/api/category/`, { signal, name });
+  const response = await $authHost.post(`/api/category/`, { signal, name });
 
   handleErrors(response);
 
@@ -32,7 +32,7 @@ export const createCategory = async (signal, name) => {
 };
 
 export const editCategory = async (signal, categoryID, name) => {
-  const response = await $adminHost.put(`/api/category/${categoryID}`, { signal, name });
+  const response = await $authHost.put(`/api/category/${categoryID}`, { signal, name });
 
   handleErrors(response);
 
@@ -40,7 +40,7 @@ export const editCategory = async (signal, categoryID, name) => {
 };
 
 export const deleteCategory = async (signal, categoryID) => {
-  const response = await $adminHost.delete(`/api/category/${categoryID}`, { signal });
+  const response = await $authHost.delete(`/api/category/${categoryID}`, { signal });
 
   handleErrors(response);
 

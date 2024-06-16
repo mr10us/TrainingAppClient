@@ -1,8 +1,8 @@
 import { handleErrors } from "@utils/handlers/http";
-import { $adminHost } from ".";
+import { $authHost } from ".";
 
 export const deleteVideo = async (signal, videoPath) => {
-  const response = await $adminHost.delete(`/api/media/?video=${videoPath}`, { signal });
+  const response = await $authHost.delete(`/api/media/?video=${videoPath}`, { signal });
 
   handleErrors(response);
 
@@ -10,7 +10,7 @@ export const deleteVideo = async (signal, videoPath) => {
 }
 
 export const deleteImage = async (signal, imagePath) => {
-  const response = await $adminHost.delete(`/api/media/?image=${imagePath}`, { signal });
+  const response = await $authHost.delete(`/api/media/?image=${imagePath}`, { signal });
 
   handleErrors(response);
 

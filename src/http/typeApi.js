@@ -1,4 +1,4 @@
-import { $adminHost, $host } from "./index";
+import { $authHost } from "./index";
 import { handleErrors } from "@utils/handlers/http";
 
 export const getTypes = async (pageParam, query, signal) => {
@@ -6,7 +6,7 @@ export const getTypes = async (pageParam, query, signal) => {
     ? `?page=${pageParam}&${query}`
     : `?page=${pageParam}`;
 
-  const response = await $host.get(`/api/type/${queryParams || ""}`, {
+  const response = await $authHost.get(`/api/type/${queryParams || ""}`, {
     signal,
   });
 
@@ -16,7 +16,7 @@ export const getTypes = async (pageParam, query, signal) => {
 };
 
 export const getType = async (signal, typeID) => {
-  const response = await $host.get(`/api/type/${typeID}/`, { signal });
+  const response = await $authHost.get(`/api/type/${typeID}/`, { signal });
 
   handleErrors(response);
 
@@ -24,7 +24,7 @@ export const getType = async (signal, typeID) => {
 };
 
 export const createType = async (signal, name) => {
-  const response = await $adminHost.post(`/api/type/`, { signal, name });
+  const response = await $authHost.post(`/api/type/`, { signal, name });
 
   handleErrors(response);
 
@@ -32,7 +32,7 @@ export const createType = async (signal, name) => {
 };
 
 export const editType = async (signal, typeID, name) => {
-  const response = await $adminHost.put(`/api/type/${typeID}`, {
+  const response = await $authHost.put(`/api/type/${typeID}`, {
     signal,
     name,
   });
@@ -43,7 +43,7 @@ export const editType = async (signal, typeID, name) => {
 };
 
 export const deleteType = async (signal, typeID) => {
-  const response = await $adminHost.delete(`/api/type/${typeID}`, { signal });
+  const response = await $authHost.delete(`/api/type/${typeID}`, { signal });
 
   handleErrors(response);
 
