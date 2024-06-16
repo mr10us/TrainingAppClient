@@ -13,11 +13,11 @@ export const StartupMenu = () => {
 
   const navigate = useNavigate();
 
-  // const user = { chatID: 340167417 };
+  // const user = { id: 340167417 };
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["login"],
-    mutationFn: ({ password }) => login(null, user.chatID, password),
+    mutationFn: ({ password }) => login(null, user.id, password),
     onError: (e) => {
       message.error(e.response.data.message);
     },
