@@ -19,6 +19,7 @@ export const StartupMenu = () => {
   useEffect(() => {
     tg.ready();
     confirmClosing();
+
     tg.expand();
   }, []);
 
