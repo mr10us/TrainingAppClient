@@ -1,7 +1,6 @@
 export const MainLayout = (props) => {  
-
   return (
-    <div {...props} style={{ overflow: "auto", scrollBehavior: "smooth" }}>
+    <div {...props} style={{  }}>
       {props.children}
     </div>
   );
