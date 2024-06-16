@@ -1,47 +1,45 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 export const MainLayout = (props) => {
-  const scrollableElementRef = useRef(null);
+  const scrollableElRef = useRef(null);
 
   useEffect(() => {
-    const ensureDocumentIsScrollable = () => {
-      const isScrollable =
-        document.documentElement.scrollHeight > window.innerHeight;
-      if (!isScrollable) {
-        document.documentElement.style.setProperty(
-          "height",
-          "calc(100vh + 1px)",
-          "important"
-        );
+    const overflow = 100;
+    document.body.style.overflowY = 'hidden';
+    document.body.style.marginTop = `${overflow}px`;
+    document.body.style.height = `${window.innerHeight + overflow}px`;
+    document.body.style.paddingBottom = `${overflow}px`;
+    window.scrollTo(0, overflow);
+
+    let ts;
+
+    const onTouchStart = (e) => {
+      ts = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e) => {
+      if (scrollableElRef.current) {
+        const scroll = scrollableElRef.current.scrollTop;
+        const te = e.changedTouches[0].clientY;
+        if (scroll <= 0 && ts < te) {
+          e.preventDefault();
+        }
+      } else {
+        e.preventDefault();
       }
     };
 
-    const preventCollapse = () => {
-      if (window.scrollY === 0) {
-        window.scrollTo(0, 1);
-      }
-    };
+    document.documentElement.addEventListener('touchstart', onTouchStart, { passive: false });
+    document.documentElement.addEventListener('touchmove', onTouchMove, { passive: false });
 
-    // Call ensureDocumentIsScrollable when the entire page has loaded.
-    window.addEventListener("load", ensureDocumentIsScrollable);
-
-    // Attach the preventCollapse function to the touchstart event handler.
-    const scrollableElement = scrollableElementRef.current;
-    if (scrollableElement) {
-      scrollableElement.addEventListener("touchstart", preventCollapse);
-    }
-
-    // Cleanup function to remove event listeners when the component unmounts.
     return () => {
-      window.removeEventListener("load", ensureDocumentIsScrollable);
-      if (scrollableElement) {
-        scrollableElement.removeEventListener("touchstart", preventCollapse);
-      }
+      document.documentElement.removeEventListener('touchstart', onTouchStart);
+      document.documentElement.removeEventListener('touchmove', onTouchMove);
     };
   }, []);
 
   return (
-    <div {...props} style={{ height: "100%" }}>
+    <div {...props} style={{ minHeight: '100svh' }} ref={scrollableElRef}>
       {props.children}
     </div>
   );
