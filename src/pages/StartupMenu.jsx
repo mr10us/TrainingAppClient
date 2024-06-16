@@ -19,9 +19,6 @@ export const StartupMenu = () => {
   useEffect(() => {
     tg.ready();
     confirmClosing();
-
-    document.body.height = window.Telegram.WebApp.viewportHeight;
-
     tg.expand();
   }, []);
 

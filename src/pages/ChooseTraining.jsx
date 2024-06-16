@@ -227,7 +227,7 @@ export const ChooseTraining = () => {
                     (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
                   return (
                     <motion.span
-                      className="my-3 px-4 bg-yellow-50 rounded-lg shadow-md"
+                      className="my-2 px-4 bg-yellow-50 rounded-lg shadow-md"
                       variants={items(delay)}
                       initial="hidden"
                       animate="visible"
