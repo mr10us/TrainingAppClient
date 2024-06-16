@@ -7,6 +7,7 @@ export const useTelegram = () => {
 
   return {
     onClose,
+    confirmClosing: tg.viewportChanged,
     tg,
     user: tg.initDataUnsafe?.user,
     queryId: tg.initDataUnsafe?.query_id,

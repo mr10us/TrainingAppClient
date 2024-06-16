@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { login } from "@http/userApi";
 
 export const StartupMenu = () => {
-  const { tg, user } = useTelegram();
+  const { tg, user, confirmClosing } = useTelegram();
 
   // const user = { id: 340167417 };
 
@@ -18,8 +18,9 @@ export const StartupMenu = () => {
 
   useEffect(() => {
     tg.ready();
-    
-    document.body.clientHeight = window.Telegram.WebApp.viewportHeight;
+    confirmClosing();
+
+    document.body.height = window.Telegram.WebApp.viewportHeight;
 
     tg.expand();
   }, []);
