@@ -86,7 +86,7 @@ export const Home = () => {
 
   return (
     <MainLayout>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between h-max-screen">
         <div className="pt-8 px-4 flex flex-row-reverse justify-between">
           {image ? (
             <motion.img
