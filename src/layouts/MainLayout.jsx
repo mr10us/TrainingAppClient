@@ -1,6 +1,6 @@
 export const MainLayout = (props) => {
   return (
-    <div {...props} style={{ height: "100vh", overflowY: "hidden" }}>
+    <div {...props} style={{ overflowY: "hidden" }}>
       {props.children}
     </div>
   );
