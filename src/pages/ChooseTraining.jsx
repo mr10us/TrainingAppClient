@@ -213,7 +213,7 @@ export const ChooseTraining = () => {
       <PageHeader title={"Тренування"} size={"medium"} />
       {isLoading && <Loader />}
       {isSuccess && (
-        <>
+        <div className="m-4">
           {trainings?.length > 0 ? (
             <VirtualList
               data={trainings}
@@ -266,7 +266,7 @@ export const ChooseTraining = () => {
             <Empty description={"Пусто"} />
           )}
           <Filter filterItems={filterItems} query={query} setQuery={setQuery} />
-        </>
+        </div>
       )}
     </MainLayout>
   );
