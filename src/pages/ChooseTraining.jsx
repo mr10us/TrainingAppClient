@@ -214,62 +214,57 @@ export const ChooseTraining = () => {
       {isLoading && <Loader />}
       {isSuccess && (
         <>
-          {trainings?.length > 0 ?
-            <List className="m-4">
-              <VirtualList
-                data={trainings}
-                height={containerHeight}
-                itemKey="id"
-                onScroll={onScroll}
-              >
-                {(item, idx) => {
-                  const delay =
-                    (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
-                  return (
-                    <motion.span
-                      className="my-2 px-4 bg-yellow-50 rounded-lg shadow-md"
-                      variants={items(delay)}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                      <Link to={routes.TRAININGS_LIST + item.id + "/preview/"}>
-                        <Badge.Ribbon text={genders[item.gender]}>
-                          <List.Item className="flex items-center justify-between w-full">
-                            <div className="basis-2/3 text-gray-950">
-                              <h2 className="font-bold text-lg">
-                                {item.title}
-                              </h2>
-                              <p>
-                                Час виконання: <i>{item.exec_time}</i>
-                              </p>
-                              <p>Тип: {levels[item.level]}</p>
-                              <div className="mt-1">
-                                <Rating
-                                  rating={item.rating}
-                                  readOnly
-                                  allowHalf
-                                />
-                              </div>
+          {trainings?.length > 0 ? (
+            <VirtualList
+              data={trainings}
+              height={containerHeight}
+              itemKey="id"
+              onScroll={onScroll}
+            >
+              {(item, idx) => {
+                const delay =
+                  (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
+                return (
+                  <motion.span
+                    className="my-2 px-4 bg-yellow-50 rounded-lg shadow-md"
+                    variants={items(delay)}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <Link to={routes.TRAININGS_LIST + item.id + "/preview/"}>
+                      <Badge.Ribbon text={genders[item.gender]}>
+                        <div className="flex items-center justify-between w-full">
+                          <div className="basis-2/3 text-gray-950">
+                            <h2 className="font-bold text-lg">{item.title}</h2>
+                            <p>
+                              Час виконання: <i>{item.exec_time}</i>
+                            </p>
+                            <p>Тип: {levels[item.level]}</p>
+                            <div className="mt-1">
+                              <Rating rating={item.rating} readOnly allowHalf />
                             </div>
-                            <div className="basis-1/3 flex justify-center">
-                              <img
-                                className="rounded-md h-24 object-contain"
-                                src={item.image}
-                                alt="training image"
-                                onError={(e) =>
-                                  (e.target.src = import.meta.env.VITE_DEFAULT_PIC)
-                                }
-                              />
-                            </div>
-                          </List.Item>
-                        </Badge.Ribbon>
-                      </Link>
-                    </motion.span>
-                  );
-                }}
-              </VirtualList>
-            </List>
-          : <Empty description={"Пусто"}/>}
+                          </div>
+                          <div className="basis-1/3 flex justify-center">
+                            <img
+                              className="rounded-md h-24 object-contain"
+                              src={item.image}
+                              alt="training image"
+                              onError={(e) =>
+                                (e.target.src =
+                                  import.meta.env.VITE_DEFAULT_PIC)
+                              }
+                            />
+                          </div>
+                        </div>
+                      </Badge.Ribbon>
+                    </Link>
+                  </motion.span>
+                );
+              }}
+            </VirtualList>
+          ) : (
+            <Empty description={"Пусто"} />
+          )}
           <Filter filterItems={filterItems} query={query} setQuery={setQuery} />
         </>
       )}

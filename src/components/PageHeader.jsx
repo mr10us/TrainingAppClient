@@ -45,7 +45,7 @@ export const PageHeader = ({
   return (
     <motion.div className="relative h-20" variants={headerAnim} initial="hidden" animate="visible">
       <div
-        className="grid fixed grid-cols-3 w-full h-20 items-center gap-4 shadow-sm"
+        className="grid fixed grid-cols-3 top-0 w-full h-20 items-center gap-4 shadow-sm"
         style={{
           background: "linear-gradient(to bottom, #ffc04b, #ffba43)",
           zIndex: 999,
