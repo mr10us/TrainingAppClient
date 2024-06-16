@@ -23,7 +23,7 @@ export const StartupMenu = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="h-full flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg">
         <div className="text-center">
           <img src={logoBird} alt="Logo bird" className="h-40 mx-auto mb-4" />
