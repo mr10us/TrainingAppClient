@@ -214,7 +214,7 @@ export const ChooseTraining = () => {
       {isLoading && <Loader />}
       {isSuccess && (
         <>
-          {trainings?.length > 0 ?
+          {trainings?.length > 0 ? (
             <List className="m-4">
               <VirtualList
                 data={trainings}
@@ -226,50 +226,57 @@ export const ChooseTraining = () => {
                   const delay =
                     (idx + 1) % 10 === 0 ? 1 : ((idx + 1 + 1) % 10) * 0.1;
                   return (
-                    <motion.span
-                      className="my-2 px-4 bg-yellow-50 rounded-lg shadow-md"
+                    <motion.div
+                      className="py-2"
                       variants={items(delay)}
                       initial="hidden"
                       animate="visible"
                     >
-                      <Link to={routes.TRAININGS_LIST + item.id + "/preview/"}>
-                        <Badge.Ribbon text={genders[item.gender]}>
-                          <List.Item className="flex items-center justify-between w-full">
-                            <div className="basis-2/3 text-gray-950">
-                              <h2 className="font-bold text-lg">
-                                {item.title}
-                              </h2>
-                              <p>
-                                Час виконання: <i>{item.exec_time}</i>
-                              </p>
-                              <p>Тип: {levels[item.level]}</p>
-                              <div className="mt-1">
-                                <Rating
-                                  rating={item.rating}
-                                  readOnly
-                                  allowHalf
+                      <span className="px-4 bg-yellow-50 rounded-lg shadow-md">
+                        <Link
+                          to={routes.TRAININGS_LIST + item.id + "/preview/"}
+                        >
+                          <Badge.Ribbon text={genders[item.gender]}>
+                            <List.Item className="flex items-center justify-between w-full">
+                              <div className="basis-2/3 text-gray-950">
+                                <h2 className="font-bold text-lg">
+                                  {item.title}
+                                </h2>
+                                <p>
+                                  Час виконання: <i>{item.exec_time}</i>
+                                </p>
+                                <p>Тип: {levels[item.level]}</p>
+                                <div className="mt-1">
+                                  <Rating
+                                    rating={item.rating}
+                                    readOnly
+                                    allowHalf
+                                  />
+                                </div>
+                              </div>
+                              <div className="basis-1/3 flex justify-center">
+                                <img
+                                  className="rounded-md h-24 object-contain"
+                                  src={item.image}
+                                  alt="training image"
+                                  onError={(e) =>
+                                    (e.target.src =
+                                      import.meta.env.VITE_DEFAULT_PIC)
+                                  }
                                 />
                               </div>
-                            </div>
-                            <div className="basis-1/3 flex justify-center">
-                              <img
-                                className="rounded-md h-24 object-contain"
-                                src={item.image}
-                                alt="training image"
-                                onError={(e) =>
-                                  (e.target.src = import.meta.env.VITE_DEFAULT_PIC)
-                                }
-                              />
-                            </div>
-                          </List.Item>
-                        </Badge.Ribbon>
-                      </Link>
-                    </motion.span>
+                            </List.Item>
+                          </Badge.Ribbon>
+                        </Link>
+                      </span>
+                    </motion.div>
                   );
                 }}
               </VirtualList>
             </List>
-          : <Empty description={"Пусто"}/>}
+          ) : (
+            <Empty description={"Пусто"} />
+          )}
           <Filter filterItems={filterItems} query={query} setQuery={setQuery} />
         </>
       )}
