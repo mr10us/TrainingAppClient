@@ -232,7 +232,7 @@ export const ChooseTraining = () => {
                       initial="hidden"
                       animate="visible"
                     >
-                      <span className="px-4 bg-yellow-50 rounded-lg shadow-md">
+                      <div className="px-4 bg-yellow-50 rounded-lg shadow-md">
                         <Link
                           to={routes.TRAININGS_LIST + item.id + "/preview/"}
                         >
@@ -268,7 +268,7 @@ export const ChooseTraining = () => {
                             </List.Item>
                           </Badge.Ribbon>
                         </Link>
-                      </span>
+                      </div>
                     </motion.div>
                   );
                 }}
