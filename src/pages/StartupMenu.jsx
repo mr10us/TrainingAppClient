@@ -63,7 +63,7 @@ export const StartupMenu = () => {
             <Input.OTP
               inputMode="numeric"
               placeholder="Введіть пароль..."
-              mask="🔒"
+              mask="*"
             />
           </Form.Item>
           <Button

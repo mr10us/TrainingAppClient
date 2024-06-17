@@ -92,7 +92,9 @@ export const TrainingPage = () => {
                   <h2 className="text-3xl font-bold text-gray-100">
                     {exercise.title}
                   </h2>
-                  <p className="text-gray-100 text-lg">{exercise.content}</p>
+                  {exercise.content.split("\n").filter(Boolean).map((paragraph) => (
+                    <p className="text-gray-100 text-lg">{paragraph}</p>
+                  ))}
                 </div>
                 <div className="w-72 mx-auto">
                   <CustomPlayer
